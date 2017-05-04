@@ -1,0 +1,787 @@
+﻿{
+   "format": "nxs.json.v1",
+   "created": "2017-05-04T01:11:39.326Z",
+   "session_scope": "all",
+   "include_session": true,
+   "include_window": true,
+   "platform": "Win32",
+   "language": "en-US",
+   "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
+   "sb_id": "edacconmaakjimmfgnblocblbcdcpbko",
+   "sb_version": "3.5",
+   "sb_installation_id": "YvLWpDX9T0ksRqCSVpP8EmLpuhJPQCYP",
+   "sb_installed": "2017-05-04T01:05:11.893Z",
+   "sessions": [
+      {
+         "type": "current",
+         "generated": "2017-05-04T01:11:39.321Z",
+         "windows": [
+            {
+               "alwaysOnTop": false,
+               "focused": true,
+               "height": 784,
+               "id": 32,
+               "incognito": false,
+               "left": -8,
+               "state": "maximized",
+               "tabs": [
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/ic_product_inbox_16dp_r2_2x.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 33,
+                     "incognito": false,
+                     "index": 0,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Inbox – neilbalch@gmail.com",
+                     "url": "https://inbox.google.com/u/0/",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 35,
+                     "incognito": false,
+                     "index": 1,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "My Drive - Google Drive",
+                     "url": "https://drive.google.com/drive/my-drive",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 37,
+                     "incognito": false,
+                     "index": 2,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Job Descriptions - Google Drive",
+                     "url": "https://drive.google.com/drive/folders/0BxjrA0SnOATjcEhWd2JSSEtucjQ",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 39,
+                     "incognito": false,
+                     "index": 3,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "MVHS: 9 - Google Drive",
+                     "url": "https://drive.google.com/drive/folders/0B1oOQuT6GDaaalgxV3EyZlQ0T1E",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/keep/keep.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 41,
+                     "incognito": false,
+                     "index": 4,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Google Keep",
+                     "url": "https://keep.google.com/u/0/#home",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/classroom/favicon.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 43,
+                     "incognito": false,
+                     "index": 5,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Classes",
+                     "url": "https://classroom.google.com/u/1/h",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/classroom/favicon_pink_16.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 553,
+                     "incognito": false,
+                     "index": 6,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Wed./Thurs., May 3/4, 2017 Daily Classwork and Homework",
+                     "url": "https://classroom.google.com/u/1/c/MTkyNjIzMjkwOVpa/a/NjM0NzgyNTE1MVpa/details",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://d3njjcbhbojbot.cloudfront.net/web/images/favicons/icon-blue-32x32.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 53,
+                     "incognito": false,
+                     "index": 7,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Coursera | Online Courses From Top Universities. Join for Free",
+                     "url": "https://www.coursera.org/recommendations",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://assets-cdn.github.com/favicon.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 633,
+                     "incognito": false,
+                     "index": 8,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "neilbalch/Python-Tutorial-Calculator: Python Tutorial: Making a simple command line calculator",
+                     "url": "https://github.com/neilbalch/Python-Tutorial-Calculator/tree/master",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": true,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "",
+                     "height": 670,
+                     "highlighted": true,
+                     "id": 685,
+                     "incognito": false,
+                     "index": 9,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": true,
+                     "status": "complete",
+                     "title": "Casual - Session Buddy",
+                     "url": "chrome-extension://edacconmaakjimmfgnblocblbcdcpbko/main.html#WvpUbexSBJtu0ZX8mWrxNBBdWLRCR1TS",
+                     "width": 1304,
+                     "windowId": 32
+                  }
+               ],
+               "top": -8,
+               "type": "normal",
+               "width": 1320
+            }
+         ]
+      },
+      {
+         "type": "saved",
+         "name": "Casual",
+         "generated": "1970-01-01T00:00:00.000Z",
+         "created": "2017-05-04T01:09:41.043Z",
+         "modified": "2017-05-04T01:09:41.043Z",
+         "id": 4,
+         "gid": "WvpUbexSBJtu0ZX8mWrxNBBdWLRCR1TS",
+         "windows": [
+            {
+               "alwaysOnTop": false,
+               "focused": false,
+               "height": 784,
+               "id": 753,
+               "incognito": false,
+               "left": -8,
+               "state": "maximized",
+               "tabs": [
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/ic_product_inbox_16dp_r2_2x.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 754,
+                     "incognito": false,
+                     "index": 0,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Inbox – neilbalch@gmail.com",
+                     "url": "https://inbox.google.com/u/0/",
+                     "width": 1304,
+                     "windowId": 753
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 756,
+                     "incognito": false,
+                     "index": 1,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "My Drive - Google Drive",
+                     "url": "https://drive.google.com/drive/my-drive",
+                     "width": 1304,
+                     "windowId": 753
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 758,
+                     "incognito": false,
+                     "index": 2,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "MVHS: 9 - Google Drive",
+                     "url": "https://drive.google.com/drive/folders/0B1oOQuT6GDaaalgxV3EyZlQ0T1E",
+                     "width": 1304,
+                     "windowId": 753
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/keep/keep.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 760,
+                     "incognito": false,
+                     "index": 3,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Google Keep",
+                     "url": "https://keep.google.com/u/0/#home",
+                     "width": 1304,
+                     "windowId": 753
+                  },
+                  {
+                     "active": true,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://www.youtube.com/yts/img/favicon_32-vfl8NGn4k.png",
+                     "height": 670,
+                     "highlighted": true,
+                     "id": 775,
+                     "incognito": false,
+                     "index": 4,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": true,
+                     "status": "complete",
+                     "title": "Subscriptions - YouTube",
+                     "url": "https://www.youtube.com/feed/subscriptions",
+                     "width": 1304,
+                     "windowId": 753
+                  }
+               ],
+               "top": -8,
+               "type": "normal",
+               "width": 1320
+            }
+         ]
+      },
+      {
+         "type": "saved",
+         "name": "Programming",
+         "generated": "1970-01-01T00:00:00.000Z",
+         "created": "2017-05-04T01:08:20.579Z",
+         "modified": "2017-05-04T01:08:20.579Z",
+         "id": 3,
+         "gid": "V6sFDtlWhKz228Zs9P8XAArMTf4Csemk",
+         "windows": [
+            {
+               "alwaysOnTop": false,
+               "focused": true,
+               "height": 784,
+               "id": 689,
+               "incognito": false,
+               "left": -8,
+               "state": "maximized",
+               "tabs": [
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/ic_product_inbox_16dp_r2_2x.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 690,
+                     "incognito": false,
+                     "index": 0,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Inbox – neilbalch@gmail.com",
+                     "url": "https://inbox.google.com/u/0/",
+                     "width": 1304,
+                     "windowId": 689
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 692,
+                     "incognito": false,
+                     "index": 1,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "My Drive - Google Drive",
+                     "url": "https://drive.google.com/drive/u/0/my-drive",
+                     "width": 1304,
+                     "windowId": 689
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/keep/keep.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 699,
+                     "incognito": false,
+                     "index": 2,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Google Keep",
+                     "url": "https://keep.google.com/u/0/",
+                     "width": 1304,
+                     "windowId": 689
+                  },
+                  {
+                     "active": true,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://robotics.mvla.net/gerrit/favicon.ico",
+                     "height": 670,
+                     "highlighted": true,
+                     "id": 727,
+                     "incognito": false,
+                     "index": 3,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": true,
+                     "status": "complete",
+                     "title": "My Reviews | robotics.mvla Code Review",
+                     "url": "https://robotics.mvla.net/gerrit/#/dashboard/self",
+                     "width": 1304,
+                     "windowId": 689
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://assets-cdn.github.com/favicon.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 705,
+                     "incognito": false,
+                     "index": 4,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "neilbalch (Neil B)",
+                     "url": "https://github.com/neilbalch",
+                     "width": 1304,
+                     "windowId": 689
+                  }
+               ],
+               "top": -8,
+               "type": "normal",
+               "width": 1320
+            }
+         ]
+      },
+      {
+         "type": "saved",
+         "name": "School",
+         "generated": "1970-01-01T00:00:00.000Z",
+         "created": "2017-05-04T01:05:48.299Z",
+         "modified": "2017-05-04T01:06:04.433Z",
+         "id": 2,
+         "gid": "qcdTm9YpZYKfJSROVqKTLJHjFJWijwj9",
+         "windows": [
+            {
+               "alwaysOnTop": false,
+               "focused": true,
+               "height": 784,
+               "id": 32,
+               "incognito": false,
+               "left": -8,
+               "state": "maximized",
+               "tabs": [
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/ic_product_inbox_16dp_r2_2x.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 33,
+                     "incognito": false,
+                     "index": 0,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Inbox – neilbalch@gmail.com",
+                     "url": "https://inbox.google.com/u/0/",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 35,
+                     "incognito": false,
+                     "index": 1,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "My Drive - Google Drive",
+                     "url": "https://drive.google.com/drive/my-drive",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_4.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 39,
+                     "incognito": false,
+                     "index": 3,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "MVHS: 9 - Google Drive",
+                     "url": "https://drive.google.com/drive/folders/0B1oOQuT6GDaaalgxV3EyZlQ0T1E",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/keep/keep.ico",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 41,
+                     "incognito": false,
+                     "index": 4,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Google Keep",
+                     "url": "https://keep.google.com/u/0/#home",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": false,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "https://ssl.gstatic.com/classroom/favicon.png",
+                     "height": 670,
+                     "highlighted": false,
+                     "id": 43,
+                     "incognito": false,
+                     "index": 5,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": true,
+                     "selected": false,
+                     "status": "complete",
+                     "title": "Classes",
+                     "url": "https://classroom.google.com/u/1/h",
+                     "width": 1304,
+                     "windowId": 32
+                  },
+                  {
+                     "active": true,
+                     "audible": false,
+                     "autoDiscardable": true,
+                     "discarded": false,
+                     "favIconUrl": "",
+                     "height": 670,
+                     "highlighted": true,
+                     "id": 685,
+                     "incognito": false,
+                     "index": 9,
+                     "mutedInfo": {
+                        "muted": false
+                     },
+                     "pinned": false,
+                     "selected": true,
+                     "status": "complete",
+                     "title": "Current Session - Session Buddy",
+                     "url": "chrome-extension://edacconmaakjimmfgnblocblbcdcpbko/main.html",
+                     "width": 1304,
+                     "windowId": 32
+                  }
+               ],
+               "top": -8,
+               "type": "normal",
+               "width": 1320
+            }
+         ]
+      },
+      {
+         "type": "saved",
+         "name": "Session Buddy",
+         "generated": "2017-05-04T01:05:11.893Z",
+         "created": "2017-05-04T01:05:11.893Z",
+         "modified": "2017-05-04T01:05:11.893Z",
+         "id": 1,
+         "gid": "6zhvnr1a1c9VohPCR5gXNFcGupQPphcW",
+         "windows": [
+            {
+               "nx_title": "How to",
+               "state": "normal",
+               "type": "normal",
+               "tabs": [
+                  {
+                     "favIconUrl": "https://sessionbuddy.com/images/favicon.png",
+                     "pinned": false,
+                     "title": "Back up Session Buddy Data",
+                     "url": "https://sessionbuddy.com/backup-restore/"
+                  },
+                  {
+                     "favIconUrl": "https://sessionbuddy.com/images/favicon.png",
+                     "pinned": false,
+                     "title": "Import and Export Session Buddy Data",
+                     "url": "https://sessionbuddy.com/import-export/"
+                  },
+                  {
+                     "favIconUrl": "https://sessionbuddy.com/images/favicon.png",
+                     "pinned": false,
+                     "title": "Customize Date and Time Formats",
+                     "url": "https://sessionbuddy.com/date-formatting/"
+                  }
+               ]
+            },
+            {
+               "nx_title": "Support",
+               "state": "normal",
+               "type": "normal",
+               "tabs": [
+                  {
+                     "favIconUrl": "https://sessionbuddy.com/images/favicon.png",
+                     "pinned": false,
+                     "title": "Troubleshooting",
+                     "url": "https://sessionbuddy.com/troubleshooting/"
+                  },
+                  {
+                     "favIconUrl": "https://groups.google.com/forum/favicon.ico",
+                     "pinned": false,
+                     "title": "Session Buddy Forum",
+                     "url": "https://groups.google.com/forum/?fromgroups#!forum/sessionbuddy-discuss"
+                  }
+               ]
+            },
+            {
+               "nx_title": "Manage",
+               "state": "normal",
+               "type": "normal",
+               "tabs": [
+                  {
+                     "pinned": false,
+                     "title": "Settings",
+                     "url": "chrome-extension://edacconmaakjimmfgnblocblbcdcpbko/options.html"
+                  },
+                  {
+                     "favIconUrl": "chrome://theme/IDR_EXTENSIONS_FAVICON@2x",
+                     "pinned": false,
+                     "title": "Manage Extension",
+                     "url": "chrome://extensions/?id=edacconmaakjimmfgnblocblbcdcpbko"
+                  },
+                  {
+                     "favIconUrl": "https://www.google.com/images/icons/product/chrome_web_store-32.png",
+                     "pinned": false,
+                     "title": "Session Buddy in the Chrome Web Store",
+                     "url": "https://chrome.google.com/webstore/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "user_settings": {
+      "dateDisplayType": "custom",
+      "sessionSummaryRender_PreviousSessionQueueSize": 3,
+      "sessionSummaryRender_PanelWidth": 260,
+      "sessionSummaryRender_ShowAnnotation": "true",
+      "sessionRender_RenderSessionURL": "true",
+      "sessionRender_ShowAdminTabsInItalic": "true",
+      "sessionRender_ShowSessionCountsInNavigationPane": "true",
+      "sessionMerge_WarnOnMerge": "true",
+      "sessionSave_AskForName": "true",
+      "sessionSave_ConfirmClose": "true",
+      "sessionEdit_HideDuplicateTabsInMerge": "true",
+      "customDateFormat": "",
+      "appMode": "",
+      "sessionEdit_IgnoreUrlParamsInTabCompare": "false",
+      "sessionSave_ShowSaveCurrentInRightClickMenus": "false",
+      "enableKeyboardShortcuts": "true",
+      "sessionRender_ShowExtensionBadge": "false",
+      "tabFiltering_FilterSessionBuddyTabs": "true",
+      "tabFiltering_FilterChromeAdministrativeTabs": "false",
+      "sessionExport_ShowWindows": "false",
+      "sessionExport_ShowTitles": "false",
+      "sessionExport_ShowURLs": "true",
+      "sessionExport_Format": "Text"
+   }
+}
