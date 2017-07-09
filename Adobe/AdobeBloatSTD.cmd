@@ -1,3 +1,5 @@
+rem Removes files from the standatd Adobe Cache locations
+
 @ECHO OFF
 SET interactive=0
 
