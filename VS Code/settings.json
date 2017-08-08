@@ -1,0 +1,15 @@
+// Place your settings in this file to overwrite the default settings
+{
+  // Controls the font size in pixels.
+  "editor.fontSize": 12,
+  // The number of spaces a tab is equal to. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
+  "editor.tabSize": 2,
+  // Controls how the editor should render whitespace characters, possibilities are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.
+  "editor.renderWhitespace": "boundary",
+  // Insert spaces when pressing Tab. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
+  "editor.insertSpaces": true,
+  "workbench.colorTheme": "Visual Studio Dark",
+  "window.zoomLevel": 0,
+  "workbench.iconTheme": "vscode-icons",
+
+}
