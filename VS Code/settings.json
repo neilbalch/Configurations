@@ -1,15 +1,45 @@
 // Place your settings in this file to overwrite the default settings
 {
-  // Controls the font size in pixels.
+  "C_Cpp.clang_format_formatOnSave": true,
   "editor.fontSize": 12,
-  // The number of spaces a tab is equal to. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
   "editor.tabSize": 2,
   // Controls how the editor should render whitespace characters, possibilities are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.
   "editor.renderWhitespace": "boundary",
   // Insert spaces when pressing Tab. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
   "editor.insertSpaces": true,
-  "workbench.colorTheme": "Visual Studio Dark",
+  "editor.detectIndentation": true,
+  "editor.smoothScrolling": true,
+  "editor.mouseWheelZoom": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+  },
+  "files.trimTrailingWhitespace": true,
+  "terminal.integrated.shell.windows": "C:\\WINDOWS\\Sysnative\\bash.exe",
+  "terminal.integrated.fontSize": 12,
   "window.zoomLevel": 0,
+  "window.restoreWindows": "all",
+  "window.autoDetectHighContrast": true,
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName}",
+  "workbench.colorTheme": "Visual Studio Dark",
   "workbench.iconTheme": "vscode-icons",
-
+  "workbench.sideBar.location": "left",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#005f5f",
+    "statusBar.noFolderBackground": "#005f5f",
+    "statusBar.debuggingBackground": "#005f5f"
+  },
+  "vim.disableAnnoyingNeovimMessage": true,
+  "vim.useSystemClipboard": true,
+  "vim.hlsearch": true,
+  "vim.statusBarColorControl": true,
+  "vim.statusBarColors" : {
+        "normal": "#005f5f",
+        "insert": "#5f0000",
+        "visual": "#5f00af",
+        "visualline": "#005f87",
+        "visualblock": "#86592d",
+        "replace": "#000000"
+  }
 }

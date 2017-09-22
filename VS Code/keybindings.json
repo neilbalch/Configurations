@@ -1,0 +1,24 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.tasks.runTask",
+    "args": "c++"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "workbench.action.openNextRecentlyUsedEditorInGroup"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "workbench.action.quickOpenNavigatePreviousInEditorPicker"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-selectNextPageSuggestion"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-selectPrevPageSuggestion"
+  }
+]
