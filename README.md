@@ -16,6 +16,8 @@ This repository covers my software configurations for the following applications
 - Visual Studio Code
   - Keybindings
   - Global Settings
+  - Snippets
+    - `cpp.json`
   - C++ Workspace Settings (Windows with MinGW)
     - C++ Properties
     - Local Settings
