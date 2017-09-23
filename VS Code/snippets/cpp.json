@@ -21,6 +21,38 @@
 			"$2",
 			"}"
 		],
-		"description": "main()"
-	}
+		"description": "Function main()"
+	},
+
+	"#include<iostream>": {
+		"prefix": "#include",
+		"body": [
+			"#include <iostream>$2"
+		],
+		"description": "Include iostream"
+	},
+
+	"#include<chrono>": {
+		"prefix": "#include",
+		"body": [
+			"#include <chrono>$2"
+		],
+		"description": "Include chrono"
+	},
+
+	"#include<utility>": {
+		"prefix": "#include",
+		"body": [
+			"#include <utility>$2"
+		],
+		"description": "Include utility"
+	},
+
+	"#include<stdlib.h>": {
+		"prefix": "#include",
+		"body": [
+			"#include <stdlib.h>$2"
+		],
+		"description": "Include stdlib.h"
+	},
 }
