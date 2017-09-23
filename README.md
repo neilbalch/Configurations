@@ -1,7 +1,5 @@
 # Configurations
 
-Configs for applications I use on a daily basis.
-
 This repository covers my software configurations for the following applications:
 
 - Adobe
