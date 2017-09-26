@@ -1,6 +1,7 @@
 // Place your settings in this file to overwrite the default settings
 {
   "C_Cpp.clang_format_formatOnSave": true,
+  "C_Cpp.clang_format_style": "Google",
   "editor.fontSize": 12,
   "editor.tabSize": 2,
   // Controls how the editor should render whitespace characters, possibilities are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.
@@ -10,10 +11,11 @@
   "editor.detectIndentation": true,
   "editor.smoothScrolling": true,
   "editor.mouseWheelZoom": false,
+  "editor.rulers": [80],
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
-    "**/.hg": true,
+    "**/.hg": true
   },
   "files.trimTrailingWhitespace": true,
   "terminal.integrated.shell.windows": "C:\\WINDOWS\\Sysnative\\bash.exe",
@@ -21,7 +23,7 @@
   "window.zoomLevel": 0,
   "window.restoreWindows": "all",
   "window.autoDetectHighContrast": true,
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName}",
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
   "workbench.colorTheme": "Visual Studio Dark",
   "workbench.iconTheme": "vscode-icons",
   "workbench.sideBar.location": "left",
@@ -33,6 +35,7 @@
   "vim.disableAnnoyingNeovimMessage": true,
   "vim.useSystemClipboard": true,
   "vim.hlsearch": true,
+  "vim.searchHighlightColor": "rgba(255,0,0,0)",
   "vim.statusBarColorControl": true,
   "vim.statusBarColors" : {
         "normal": "#005f5f",
