@@ -47,9 +47,11 @@ set tabstop=2
 set shiftwidth=2
 set autoindent
 set clipboard=unnamed
+set colorcolumn=80
 
 " Set swapfiles store in ~/.vim_runtime instead of ./"
 set directory=$HOME/.vim_runtime/swapfiles//
 
 map <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>
 imap <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>i
+
