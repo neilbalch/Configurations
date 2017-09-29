@@ -11,6 +11,8 @@ This repository covers my software configurations for the following applications
   - Samba NAS Configuration
   - `.bashrc`
   - `.vimrc`
+    - With *Vundle* support
+    - Without *Vundle* support
 - Visual Studio
   - Settings
 - Visual Studio Code
