@@ -26,3 +26,5 @@ This repository covers my software configurations for the following applications
     - `launch.json`
     - `tasks.json`
 - `RoboticsIPChanger.bat` (Windows IP Switcher for Robot Network)
+- Windows
+  - Material Design desktop theme for Windows 10
