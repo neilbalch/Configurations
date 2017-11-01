@@ -5,8 +5,11 @@ This repository covers my software configurations for the following applications
 - Adobe
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
-- FlightGear
-  - Mad-Katz-F.L.Y 5 Joystick map
+- Games
+  - FlightGear
+    - Mad-Katz-F.L.Y 5 Joystick map
+  - WarThunder
+    - Mad-Katz-F.L.Y 5 Joystick map for Aircrft
 - Linux Stuff
   - Samba NAS Configuration
   - `.bashrc`
