@@ -1,0 +1,14 @@
+[http]
+  sslverify = false
+[user]
+  name = Neil Balch
+  email = neilbalch@gmail.com
+[alias]
+  graph = log --graph --oneline --decorate=short
+[alias]
+  l = log --graph --oneline --decorate=short
+[color]
+  ui = auto
+  diff = auto
+[credential]
+  helper = cache --timeout=86400

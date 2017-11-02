@@ -13,6 +13,7 @@ This repository covers my software configurations for the following applications
 - Linux Stuff
   - Samba NAS Configuration
   - `.bashrc`
+  - `.gitconfig`
   - `.vimrc`
     - With *Vundle* support
     - Without *Vundle* support
