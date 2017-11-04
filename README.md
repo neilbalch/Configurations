@@ -17,6 +17,9 @@ This repository covers my software configurations for the following applications
   - `.vimrc`
     - With *Vundle* support
     - Without *Vundle* support
+- Quick Reference
+  - `screen`
+  - `sed`
 - Visual Studio
   - Settings
 - Visual Studio Code
