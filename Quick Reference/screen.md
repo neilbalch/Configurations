@@ -9,6 +9,12 @@
 
 | Command (`C-a` means `Ctrl+A`) |       | Description |
 |--------------------------------|-------|-------------|
+|`C-a c` | (new) | Make a new window. |
+|`C-a n` | (next) | Switch to next window. |
+|`C-a p` | (previous) | Switch to next previous window. |
+|`C-a M` | (alert) | Alert me (bottom of screen) if this window has activity. |
+|`C-a _` | (alert) | Alert me (bottom of screen) if this window has no activity. |
+|`C-a k` | (kill) | Kill screen. |
 |`C-a '` | (select) | Prompt for a window name or number to switch to. |
 | `C-a "` | (windowlist -b) |Present a list of all windows for selection. |
 | `C-a 0` ... `C-a 9` | (select 0) ... (select 9) |Switch to window number 0 - 9, or to the blank window. |
