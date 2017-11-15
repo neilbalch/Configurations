@@ -1,6 +1,6 @@
 # `screen` Quick Reference
 
-Helpful: (aperiodic.net/screen/quick_reference)[http://aperiodic.net/screen/quick_reference]
+Helpful: [aperiodic.net/screen/quick_reference]([http://aperiodic.net/screen/quick_reference)
 
 ## Launching from the terminal
 
