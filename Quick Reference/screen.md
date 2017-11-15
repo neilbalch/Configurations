@@ -18,7 +18,7 @@ Helpful: [aperiodic.net/screen/quick_reference]([http://aperiodic.net/screen/qui
 |`C-a _` | (alert) | Alert me (bottom of screen) if this window has no activity. |
 |`C-a k` | (kill) | Kill screen. |
 |`C-a S` | (split) | Horizontal split. |
-|`C-a | or V` | (vsplit) | Vertical Split. |
+|`C-a \| or V` | (vsplit) | Vertical Split. |
 |`C-a '` | (select) | Prompt for a window name or number to switch to. |
 | `C-a "` | (windowlist -b) |Present a list of all windows for selection. |
 | `C-a 0` ... `C-a 9` | (select 0) ... (select 9) |Switch to window number 0 - 9, or to the blank window. |
