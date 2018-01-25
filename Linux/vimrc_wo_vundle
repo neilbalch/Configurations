@@ -22,5 +22,8 @@ set colorcolumn=80
 " Set swapfiles store in ~/.vim_runtime instead of ./"
 set directory=$HOME/.vim_runtime/swapfiles//
 
+" Set C++ syntax for FRC971 .q Queue definition files
+au BufReadPost *.q set syntax=cpp
+
 map <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>
 imap <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>i
