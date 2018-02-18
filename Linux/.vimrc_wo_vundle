@@ -25,5 +25,15 @@ set directory=$HOME/.vim_runtime/swapfiles//
 " Set C++ syntax for FRC971 .q Queue definition files
 au BufReadPost *.q set syntax=cpp
 
+" Set Python syntax for Bazel .bzl files
+augroup filetype
+  au! BufRead,BufNewFile *.bzl setfiletype python
+augroup end
+
+" Set Python syntax for Bazel BUILD files
+augroup filetype
+  au! BufRead,BufNewFile BUILD setfiletype python
+augroup end
+
 map <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>
 imap <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>i
