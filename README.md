@@ -32,6 +32,7 @@ This repository covers my software configurations for the following applications
     - Local Settings
     - `launch.json`
     - `tasks.json`
+- Intellij Idea Settings
 - `RoboticsIPChanger.bat` (Windows IP Switcher for Robot Network)
 - Windows
   - Material Design desktop theme for Windows 10
