@@ -102,3 +102,9 @@ fi
 export EDITOR=vim
 # Makes GUI Stuff work in WSL
 export DISPLAY=:0
+
+# Creates a directory and then "cd"s into it
+mkdircd() {
+  mkdir $1
+  cd $1
+}
