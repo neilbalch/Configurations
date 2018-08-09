@@ -5,6 +5,7 @@ This repository covers my software configurations for the following applications
 - Adobe
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
+  - After Effects Move Anchor Point Script
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
