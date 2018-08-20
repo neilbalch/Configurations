@@ -6,6 +6,8 @@ This repository covers my software configurations for the following applications
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
   - After Effects Move Anchor Point Script
+- Cura
+  - `Ender3 0.4mm-0.2mm.curaprofile` Cura profile for Ender 3 with 0.4mm nozzle @ 0.2mm layer height
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
