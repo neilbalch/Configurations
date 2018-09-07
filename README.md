@@ -36,11 +36,12 @@ This repository covers my software configurations for the following applications
     - `launch.json`
     - `tasks.json`
 - Intellij Idea Settings
-- `RoboticsIPChanger.bat` (Windows IP Switcher for Robot Network)
 - Windows
   - Material Design desktop theme for Windows 10
   - `Ctrl+Backspace Support.ahk` AutoHotkey Script that enables `Ctrl`+`Backspace` to delete the previous word in Windows Explorer
   - `Ctrl+Shift+QaW Remover.ahk` AutoHotkey Script that blocks `Ctrl+Shift+Q` and `Ctrl+Shift+W` from Chrome and Firefox
   - `Launch SymWin.xml` Windows Task Scheduler task to launch [SymWin](github.com/mjvh80/SymWin) on system startup
+  - `RoboticsIPChanger.bat` (Windows IP Switcher for Robot Network)
+  - `SMBShares.cmd` SMB Share populator/depopulator for home network
 - Firefox
   - `[profile]/chrome/userChrome.css` Hides the tabbar and sidebar header for use with [Tree Style Tab](addons.mozilla.org/en-US/firefox/addon/tree-style-tab/)
