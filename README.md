@@ -37,7 +37,6 @@ This repository covers my software configurations for the following applications
     - `tasks.json`
 - Intellij Idea Settings
 - Windows
-  - Material Design desktop theme for Windows 10
   - `Ctrl+Backspace Support.ahk` AutoHotkey Script that enables `Ctrl`+`Backspace` to delete the previous word in Windows Explorer
   - `Ctrl+Shift+QaW Remover.ahk` AutoHotkey Script that blocks `Ctrl+Shift+Q` and `Ctrl+Shift+W` from Chrome and Firefox
   - `Launch SymWin.xml` Windows Task Scheduler task to launch [SymWin](github.com/mjvh80/SymWin) on system startup
