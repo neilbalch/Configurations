@@ -7,7 +7,10 @@ This repository covers my software configurations for the following applications
   - "Adobe Bloat" (media cache) deletion batch script
   - After Effects Move Anchor Point Script
 - Cura
-  - `Ender3 0.4mm-0.2mm.curaprofile` Cura profile for Ender 3 with 0.4mm nozzle @ 0.2mm layer height
+  - `PETG 0.4mm-0.1mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
+  - `PETG 0.4mm-0.2mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
+  - `PLA 0.4mm-0.1mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
+  - `PLA 0.4mm-0.2mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
