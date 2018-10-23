@@ -6,11 +6,13 @@ This repository covers my software configurations for the following applications
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
   - After Effects Move Anchor Point Script
-- Cura
-  - `PETG 0.4mm-0.1mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
-  - `PETG 0.4mm-0.2mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
-  - `PLA 0.4mm-0.1mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
-  - `PLA 0.4mm-0.2mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
+- 3D Printing
+  - `Ender 3 Marlin-1.1.x.zip` Customized [MarlinFW](marlinfw.org) v1.1 firmware for Ender 3
+  - Cura
+    - `PETG 0.4mm-0.1mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
+    - `PETG 0.4mm-0.2mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
+    - `PLA 0.4mm-0.1mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
+    - `PLA 0.4mm-0.2mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
