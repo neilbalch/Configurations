@@ -6,6 +6,7 @@ This repository covers my software configurations for the following applications
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
   - After Effects Move Anchor Point Script
+- Android Studio Settings
 - 3D Printing
   - `Ender 3 Marlin-1.1.x.zip` Customized [MarlinFW](marlinfw.org) v1.1 firmware for Ender 3
   - Cura
