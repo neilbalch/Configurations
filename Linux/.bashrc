@@ -122,3 +122,8 @@ mkdircd() {
   mkdir $1
   cd $1
 }
+
+# CDs into Windows OS User dir (WSL)
+WinOS() {
+  cd /mnt/c/Users/neilb
+}
