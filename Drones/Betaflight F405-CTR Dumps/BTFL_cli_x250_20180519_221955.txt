@@ -1,0 +1,100 @@
+diff
+
+# version
+# Betaflight / MATEKF405 (MKF4) 3.3.2 May  4 2018 / 09:45:06 (64a292f37) MSP API: 1.38
+
+# name
+name x250
+
+# resources
+
+# mixer
+
+# servo
+
+# servo mix
+
+
+# feature
+feature -TELEMETRY
+feature ANTI_GRAVITY
+
+# beeper
+
+# map
+
+# serial
+
+# led
+
+# color
+
+# mode_color
+
+# aux
+aux 0 0 3 1800 2075 0
+aux 1 1 2 900 1200 0
+aux 2 2 2 1800 2100 0
+aux 3 26 3 1800 2100 0
+aux 4 28 2 1350 1650 0
+
+# adjrange
+
+# rxrange
+
+# vtx
+
+# rxfail
+rxfail 3 h
+
+# master
+set mag_hardware = NONE
+set baro_hardware = NONE
+set min_check = 1005
+set max_check = 1995
+set serialrx_provider = IBUS
+set blackbox_p_ratio = 16
+set min_throttle = 1070
+set use_unsynced_pwm = OFF
+set motor_pwm_protocol = OFF
+set motor_pwm_rate = 480
+set bat_capacity = 2200
+set vbat_min_cell_voltage = 35
+set vbat_warning_cell_voltage = 36
+set pid_process_denom = 16
+set osd_units = IMPERIAL
+set osd_warnings = 63
+set osd_vbat_pos = 2103
+set osd_tim_1_pos = 2446
+set osd_flymode_pos = 2453
+set osd_crosshairs_pos = 2282
+set osd_current_pos = 2432
+set osd_mah_drawn_pos = 2440
+set osd_craft_name_pos = 33
+set osd_altitude_pos = 399
+set osd_warnings_pos = 2129
+set osd_avg_cell_voltage_pos = 2097
+set osd_disarmed_pos = 2081
+set osd_stat_endbatt = ON
+set osd_stat_rtc_date_time = ON
+set osd_stat_tim_1 = ON
+set vcd_video_system = 2
+set displayport_max7456_blk = 3
+
+# profile
+profile 0
+
+set anti_gravity_gain = 3000
+set p_pitch = 35
+set i_pitch = 18
+set p_roll = 35
+set i_roll = 18
+set d_roll = 35
+set p_yaw = 37
+set i_yaw = 30
+
+# rateprofile
+rateprofile 0
+
+
+# 

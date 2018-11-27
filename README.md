@@ -14,6 +14,9 @@ This repository covers my software configurations for the following applications
     - `PETG 0.4mm-0.2mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
     - `PLA 0.4mm-0.1mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
     - `PLA 0.4mm-0.2mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
+- Drones
+  - `Betaflight F405-CTR Dumps` Dated Betaflight FC config dumps on [Matek F405-CTR](mateksys.com/?portfolio=f405-ctr)
+  - `MultiWii_Flip.zip` Customised FC formware for [RTFQ Flip MWC](readytoflyquads.com/flip-mwc-flight-controller)
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
