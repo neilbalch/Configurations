@@ -8,7 +8,7 @@ This repository covers my software configurations for the following applications
   - After Effects Move Anchor Point Script
 - Android Studio Settings
 - 3D Printing
-  - `Ender 3 Marlin-1.1.x.zip` Customized [MarlinFW](http://www.marlinfw.org) v1.1 firmware for Ender 3
+  - `Ender 3 Marlin-1.1.x` Customized [MarlinFW](http://www.marlinfw.org) v1.1 firmware for Ender 3
   - Cura
     - `PETG 0.4mm-0.1mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
     - `PETG 0.4mm-0.2mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
@@ -16,7 +16,7 @@ This repository covers my software configurations for the following applications
     - `PLA 0.4mm-0.2mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
 - Drones
   - `Betaflight F405-CTR Dumps` Dated Betaflight FC config dumps on [Matek F405-CTR](http://www.mateksys.com/?portfolio=f405-ctr)
-  - `MultiWii_Flip.zip` [Customised MultiWii](http://www.multiwii.com/wiki/?title=Main_Page) FC firmware for [RTFQ Flip MWC](https://readytoflyquads.com/flip-mwc-flight-controller)
+  - `MultiWii_Flip` [Customised MultiWii](http://www.multiwii.com/wiki/?title=Main_Page) FC firmware for [RTFQ Flip MWC](https://readytoflyquads.com/flip-mwc-flight-controller)
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
