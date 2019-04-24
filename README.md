@@ -36,6 +36,7 @@ This repository covers my software configurations for the following applications
 - Quick Reference
   - `screen`
   - `sed`
+- TI84 Plus CE Apps (*Use TI Connect to transfer onto calculator*)
 - Visual Studio
   - Settings
 - Visual Studio Code
