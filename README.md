@@ -33,6 +33,7 @@ This repository covers my software configurations for the following applications
   - `.vimrc`
     - With *Vundle* support
     - Without *Vundle* support
+- OctoPrint Backups: configuration backups for the OctoPrint 3D printer tool
 - Quick Reference
   - `screen`
   - `sed`
