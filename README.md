@@ -13,7 +13,6 @@ This repository covers my software configurations for the following applications
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
   - After Effects Move Anchor Point Script
-- Android Studio Settings
 - Drones
   - `Betaflight F405-CTR Dumps` Dated Betaflight FC config dumps on [Matek F405-CTR](http://www.mateksys.com/?portfolio=f405-ctr)
   - `MultiWii_Flip` [Customised MultiWii](http://www.multiwii.com/wiki/?title=Main_Page) FC firmware for [RTFQ Flip MWC](https://readytoflyquads.com/flip-mwc-flight-controller)
