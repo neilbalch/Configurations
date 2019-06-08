@@ -55,3 +55,4 @@ This repository covers my software configurations for the following applications
   - `Launch SymWin.xml` Windows Task Scheduler task to launch [SymWin](https://www.github.com/mjvh80/SymWin) on system startup
   - `RoboticsIPChanger.bat` (Windows IP Switcher for Robot Network)
   - `SMBShares.cmd` SMB Share populator/depopulator for home network
+  - `AudioService-Restart.cmd` Restarts the audio service to refresh audio driver issues
