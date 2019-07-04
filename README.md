@@ -32,7 +32,9 @@ This repository covers my software configurations for the following applications
   - `.vimrc`
     - With *Vundle* support
     - Without *Vundle* support
-- OctoPrint Backups: configuration backups for the OctoPrint 3D printer tool
+- OctoPrint
+  - `backup-yyyymmdd-xxxx.zip` Configuration backups for the OctoPrint 3D printer tool
+  - `RPi-Fan-Control.py` Fan Control script for OctoPrint to only turn on a fan connected to BOARD pin 7 (*via a BJT amplifier transistor*) when the CPU core temp >=60C
 - Quick Reference
   - `screen`
   - `sed`
