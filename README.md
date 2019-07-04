@@ -34,7 +34,7 @@ This repository covers my software configurations for the following applications
     - Without *Vundle* support
 - OctoPrint
   - `backup-yyyymmdd-xxxx.zip` Configuration backups for the OctoPrint 3D printer tool
-  - `RPi-Fan-Control.py` Fan Control script for OctoPrint to only turn on a fan connected to BOARD pin 7 (*via a BJT amplifier transistor*) when the CPU core temp >=60C
+  - `RPi-Fan-Control.py` Fan Control script for OctoPrint to only turn on a fan connected to BOARD pin 7 (*via a BJT amplifier transistor*) when the CPU core temp >=60C. Script is mentioned in `/etc/rc.local` for run on startup
 - Quick Reference
   - `screen`
   - `sed`
