@@ -1,0 +1,43 @@
+Windows 10 (10.0.18363) x64 [16 GB]
+WoWs NA 0.9.0.0 (GameCenter)
+C:/Games/World_of_Warships_NA
+[2/2/2020 19:23:22]
+
+Crosshairs:
+  Dynamic crosshairs:
+    + Nomogram Stiv372
+Ship Icons:
+  + Adjustable Panels
+Modifications of the combat interface:
+  + Ping light
+  + Detection timer after main gun shot
+  + Running Lights
+  + Score timer
+  + Compact quick commands panel
+  Mini ship icons:
+    + Ship List v1
+  Minimap modifications:
+    + Fading Transparent
+  Advanced chat:
+    + Advanced chat BADoBEST
+  + Advanced battle loading screen
+  Navigator:
+    + Navigator Big
+Port:
+  + Adjustable Div Chat
+  + Stingy by Default
+  + Good News
+  + All ships in tree
+  + Session stats
+  + Port Admiral
+  Bright awards and commanders:
+    + Achievements
+    + Ships
+  Modified Ports:
+    - The Gate
+    - Night Dragon
+    - Night Ocean
+    - Sarushima
+Other Modifications:
+  Replays:
+    + Replay Enable
