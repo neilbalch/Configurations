@@ -58,3 +58,4 @@ This repository covers my software configurations for the following applications
   - `RoboticsIPChanger.bat` (Windows IP Switcher for Robot Network)
   - `SMBShares.cmd` SMB Share populator/depopulator for home network
   - `AudioService-Restart.cmd` Restarts the audio service to refresh audio driver issues
+  - `Windows Terminal profiles.json` Config file for the UWP Windows Terminal app
