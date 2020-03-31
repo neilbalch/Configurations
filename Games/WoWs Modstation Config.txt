@@ -1,7 +1,7 @@
 Windows 10 (10.0.18363) x64 [16 GB]
 WOWS NA 0.9.2.0 (GameCenter)
 C:/Games/World_of_Warships_NA
-[3/11/2020 22:40:16]
+[3/29/2020 19:45:47]
 
 Crosshairs:
   Dynamic crosshairs:
@@ -13,7 +13,8 @@ Modifications of the combat interface:
   + Detection timer after main gun shot
   + Running Lights
   + Score timer
-  - Secondary Armament
+  + DamageMeter
+  + Secondary Armament
   + Compact quick commands panel
   Mini ship icons:
     + Team HP
