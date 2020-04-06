@@ -3,12 +3,19 @@
 This repository covers my software configurations for the following applications:
 
 - 3D Printing
-  - `Ender 3 Marlin-1.1.x` Customized [MarlinFW](http://www.marlinfw.org) v1.1 firmware for Ender 3
   - Cura
-    - `PETG 0.4mm-0.1mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
-    - `PETG 0.4mm-0.2mm.curaprofile` Cura profile for PETG on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
-    - `PLA 0.4mm-0.1mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.1mm layer height
-    - `PLA 0.4mm-0.2mm.curaprofile` Cura profile for PLA on Ender 3 with 0.4mm nozzle @ 0.2mm layer height
+    - `CHEP_Cura_Profiles_4.0/*` [CHEPclub](https://www.chepclub.com/startend-gcode.html) Ender 3 Cura profiles for Cura 4.0
+    - `CHEP_Cura_Profiles_4.4/*` [CHEPclub](https://www.chepclub.com/startend-gcode.html) Ender 3 Cura profiles for Cura 4.4
+    - `Ender 3 PETG.curaprofile` Cura profile for PETG on Ender 3
+    - `Ender 3 PLA.curaprofile` Cura profile for PLA on Ender 3
+    - `Ender 3 TPU.curaprofile` Cura profile for TPU on Ender 3
+  - `Ender 3 Marlin 1.1.x — Melzi Mainboard` Customized [MarlinFW](http://www.marlinfw.org) v1.1 firmware for Ender 3
+  - `Ender 3 Marlin 2.x.x — SKR Mini E3 Mainboard` Customized [MarlinFW](http://www.marlinfw.org) v2.0.0 firmware for Ender 3 with BLTouch mesh bed-leveling sensor
+    - `_Bootscreen.h`, `_Statusscreen.h`, ` Configuration.h`, `Configuration_adv.h` Marlin config files for drop-in replacement into `MARLIN_PATH/Marlin` folder
+    - `firmware-bltouch-for-z-homing.bin` Bigtreetech pre-compiled firmware with BLTouch
+    - `firmware-printer-stock.bin` Bigtreetech pre-compiled firmware, comes stock with printer
+    - `firmware-self-compiled-bltouch.bin` Self-compiled and tested firmware from config files in this folder
+    - `SKR-MINI-E3-V1.2-test.gcode` Test GCODE file which came with the SKR Mini E3 mainboard
 - Adobe
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
