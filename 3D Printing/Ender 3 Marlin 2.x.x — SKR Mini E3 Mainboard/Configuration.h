@@ -535,9 +535,9 @@
 
 // If you are using a pre-configured hotend then you can use one of the value
 // sets by uncommenting it Creality Ender-3
-#define DEFAULT_Kp 21.73
-#define DEFAULT_Ki 1.54
-#define DEFAULT_Kd 76.55
+#define DEFAULT_Kp 37.44
+#define DEFAULT_Ki 2.61
+#define DEFAULT_Kd 134.32
 
 // Ultimaker
 //#define DEFAULT_Kp 22.2
@@ -1495,8 +1495,8 @@
 #endif
 
 // Homing speeds (mm/m)
-#define HOMING_FEEDRATE_XY (20 * 60)
-#define HOMING_FEEDRATE_Z (4 * 60)
+#define HOMING_FEEDRATE_XY (50 * 60)
+#define HOMING_FEEDRATE_Z (8 * 60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
