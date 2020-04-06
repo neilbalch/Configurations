@@ -11,7 +11,10 @@ This repository covers my software configurations for the following applications
     - `Ender 3 TPU.curaprofile` Cura profile for TPU on Ender 3
   - `Ender 3 Marlin 1.1.x — Melzi Mainboard` Customized [MarlinFW](http://www.marlinfw.org) v1.1 firmware for Ender 3
   - `Ender 3 Marlin 2.x.x — SKR Mini E3 Mainboard` Customized [MarlinFW](http://www.marlinfw.org) v2.0.0 firmware for Ender 3 with BLTouch mesh bed-leveling sensor
-    - `_Bootscreen.h`, `_Statusscreen.h`, ` Configuration.h`, `Configuration_adv.h` Marlin config files for drop-in replacement into `MARLIN_PATH/Marlin` folder, ***NOTE:*** also apply [EEPROM emulation fix](https://github.com/MarlinFirmware/Marlin/issues/15254#issuecomment-535755449)
+    - `_Bootscreen.h`, `_Statusscreen.h`, ` Configuration.h`, `Configuration_adv.h` Marlin config files for drop-in replacement into `MARLIN_PATH/Marlin` folder
+      - ***NOTE:*** also apply [EEPROM emulation fix](https://github.com/MarlinFirmware/Marlin/issues/15254#issuecomment-535755449)
+      - [Useful Reddit Config guide](https://www.reddit.com/r/ender3/comments/dojh3v/guide_for_those_upgrading_to_an_skr_e3_mini_v12/)
+      - [Useful TeachingTech Youtube video on v1.2](https://www.youtube.com/watch?v=ikHhzOIlHPg), [v1.0, but applicable to both v1.0 and v1.2](https://www.youtube.com/watch?v=-XUQKQnUNig)
     - `firmware-bltouch-for-z-homing.bin` Bigtreetech pre-compiled firmware with BLTouch
     - `firmware-printer-stock.bin` Bigtreetech pre-compiled firmware, comes stock with printer
     - `firmware-self-compiled-bltouch.bin` Self-compiled and tested firmware from config files in this folder
