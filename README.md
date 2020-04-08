@@ -33,7 +33,7 @@ This repository covers my software configurations for the following applications
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
   - WarThunder
-    - Mad-Katz-F.L.Y 5 Joystick map for Aircrft
+    - Mad-Katz-F.L.Y 5 Joystick map for Aircraft
 - Intellij Idea Settings
 - Linux Stuff
   - Samba NAS Configuration
