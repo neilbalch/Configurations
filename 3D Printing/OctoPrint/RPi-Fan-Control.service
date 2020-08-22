@@ -1,0 +1,13 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Example systemd service.
+Description=RPi-Fan-Control.py Startup Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/pi/RPi-Fan-Control.py
+
+[Install]
+WantedBy=multi-user.target

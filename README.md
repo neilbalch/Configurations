@@ -19,6 +19,10 @@ This repository covers my software configurations for the following applications
     - `firmware-printer-stock.bin` Bigtreetech pre-compiled firmware, comes stock with printer
     - `firmware-self-compiled-bltouch.bin` Self-compiled and tested firmware from config files in this folder
     - `SKR-MINI-E3-V1.2-test.gcode` Test GCODE file which came with the SKR Mini E3 mainboard
+  - OctoPrint
+    - `backup-yyyymmdd-xxxx.zip` Configuration backups for the OctoPrint 3D printer tool
+    - `RPi-Fan-Control.py` Fan Control script for OctoPrint to only turn on a fan connected to BOARD pin 7 (*via a BJT amplifier transistor*) when the CPU core temp >=60C.
+    - `RPi-Fan-Control.service` Fan control `systemctl` service script (*located in `/etc/systemd/system`*) and started on boot by `systemctl`
 - Adobe
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
@@ -42,9 +46,6 @@ This repository covers my software configurations for the following applications
   - `.vimrc`
     - With *Vundle* support
     - Without *Vundle* support
-- OctoPrint
-  - `backup-yyyymmdd-xxxx.zip` Configuration backups for the OctoPrint 3D printer tool
-  - `RPi-Fan-Control.py` Fan Control script for OctoPrint to only turn on a fan connected to BOARD pin 7 (*via a BJT amplifier transistor*) when the CPU core temp >=60C. Script is mentioned in `/etc/rc.local` for run on startup
 - Quick Reference
   - `screen`
   - `sed`
