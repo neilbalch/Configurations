@@ -1,0 +1,12 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=wifi-to-eth-route.sh Startup Service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/pi/wifi-to-eth-route.sh
+
+[Install]
+WantedBy=multi-user.target

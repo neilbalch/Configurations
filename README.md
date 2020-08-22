@@ -22,7 +22,7 @@ This repository covers my software configurations for the following applications
   - OctoPrint
     - `backup-yyyymmdd-xxxx.zip` Configuration backups for the OctoPrint 3D printer tool
     - `RPi-Fan-Control.py` Fan Control script for OctoPrint to only turn on a fan connected to BOARD pin 7 (*via a BJT amplifier transistor*) when the CPU core temp >=60C.
-    - `RPi-Fan-Control.service` Fan control `systemctl` service script (*located in `/etc/systemd/system`*) and started on boot by `systemctl`
+    - `RPi-Fan-Control.service` Fan control `systemctl` service script (*located in `/etc/systemd/system`*) and started on boot by `systemctl` once service is enabled
 - Adobe
   - Workspace for Premiere Pro CS6
   - "Adobe Bloat" (media cache) deletion batch script
@@ -41,6 +41,9 @@ This repository covers my software configurations for the following applications
 - Intellij Idea Settings
 - Linux Stuff
   - Samba NAS Configuration
+  - Raspberry Pi Scripts
+    - `wifi-to-eth-route.service` Wireless bridge `systemctl` service script (*located in `/etc/systemd/system`*) and started on boot by `systemctl` once service is enabled
+    - `wifi-to-eth-route.sh` Bash script that reconfigures the RPi `eth0` LAN port as a wireless bridge from the WiFi connection. Forked from [arpitjindal97/raspbian-recipes](https://github.com/arpitjindal97/raspbian-recipes)
   - `.bashrc`
   - `.gitconfig`
   - `.vimrc`
