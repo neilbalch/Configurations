@@ -1,53 +1,69 @@
 Windows 10 (10.0.18363) x64 [16 GB]
-WOWS NA 0.9.5.0 (GameCenter)
+WOWS NA 0.9.10.0 (GameCenter)
 C:/Games/World_of_Warships_NA
-[6/16/2020 05:38:29]
+[10/28/2020 18:56:50]
 
 Crosshairs:
-  Dynamic crosshairs:
-    + Nomogram Stiv372
+  Dynamic Crosshairs:
+    + Nomogram Classic
 Ship Icons:
-  + Adjustable Panels
+  + Customizable Panels by BADoBEST
 Modifications of the combat interface:
-  + Ping light
-  + Detection timer after main gun shot
+  + Radar Timer
+  + Numbergress
+  + Battle in Clock
+  + Ping Color
+  + Detection Timer After Main Battery Fire
   + Running Lights
-  + Score timer
-  + DamageMeter
+  + Score Timer
+  + Movable Vehicle Parameter Panel
+  + Damage Meter
   + Secondary Armament
-  + Compact quick commands panel
-  Mini ship icons:
+  + Ship Telegraph
+  + Compact Quick Commands Panel
+  Mini Ship Icons:
     + Team HP
-  Minimap modifications:
-    + AutoSpy minimap
+  Minimap Modifications:
+    - AutoSpy Minimap
     + Fading Transparent
-  Advanced chat:
-    + Advanced chat BADoBEST
-  + Advanced battle loading screen
+  Advanced Chat:
+    + Advanced Chat BADoBEST
+  + Advanced Battle Loading Screen
   Navigator:
-    + Navigator Big
+    + Navigator Mini
 Port:
   + Adjustable Div Chat
   + Stingy by Default
   + Good News
-  + All ships in tree
-  + Session stats
-  + Port Admiral
-  Bright awards and commanders:
+  + Extended MiniCarousel
+  + All Ships in Tree
+  + Session Stats
+  + Camouflage Filters
+  Bright Awards and Commanders:
     + Achievements
+    + Commanders Awards
     + Ships
   Modified Ports:
-    + Hamburg advanced lighting
-    + Black Sea
-    - The Gate
-    + Twitch
+    + Hamburg Advanced Lighting
+    - Flooded City
+    - Monsters Bay
+    - Silver Spear
+    - Orbital Station
+    - Dorm
+    - Black Sea
+    - Twitch
     + Black Hole
+    - Jacuzzi
     - Night Dragon
-    - Night Ocean
+    - Yokosuka
+    + Night Ocean
 Other Modifications:
-  Environment modifications:
-    + Remove fog and glare and calm sea
-  Localizations:
-    + Gun calibers in 'mm' and 'inch' [EN]
+  Environment Modifications:
+    + Remove Fog and Glare plus Calm Sea
+  + Remove Flame Frame
+  Modified Loading Screen:
+    + Skip Loading Video
   Replays:
     + Replay Enable
+  Sound mods:
+    + Star Wars [EN]
