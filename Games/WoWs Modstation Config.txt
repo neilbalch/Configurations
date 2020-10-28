@@ -1,7 +1,7 @@
 Windows 10 (10.0.18363) x64 [16 GB]
 WOWS NA 0.9.10.0 (GameCenter)
 C:/Games/World_of_Warships_NA
-[10/28/2020 18:56:50]
+[10/28/2020 18:59:40]
 
 Crosshairs:
   Dynamic Crosshairs:
@@ -39,6 +39,7 @@ Port:
   + All Ships in Tree
   + Session Stats
   + Camouflage Filters
+  + Port Admiral
   Bright Awards and Commanders:
     + Achievements
     + Commanders Awards
