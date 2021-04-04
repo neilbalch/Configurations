@@ -40,7 +40,7 @@ This repository covers my software configurations for the following applications
     - Mad-Katz-F.L.Y 5 Joystick map for Aircraft
 - Intellij Idea Settings
 - Linux Stuff
-  - Samba NAS Configuration
+  - Samba Raspberry Pi NAS Configuration
   - Raspberry Pi Scripts
     - `wifi-to-eth-route.service` Wireless bridge `systemctl` service script (*located in `/etc/systemd/system`*) and started on boot by `systemctl` once service is enabled
     - `wifi-to-eth-route.sh` Bash script that reconfigures the RPi `eth0` LAN port as a wireless bridge from the WiFi connection. Forked from [arpitjindal97/raspbian-recipes](https://github.com/arpitjindal97/raspbian-recipes)
