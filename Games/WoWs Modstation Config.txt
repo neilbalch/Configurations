@@ -1,70 +1,54 @@
-Windows 10 (10.0.18363) x64 [16 GB]
-WOWS NA 0.9.10.0 (GameCenter)
-C:/Games/World_of_Warships_NA
-[10/28/2020 18:59:40]
+Windows 10 (10.0.19042) x64 [16 GB]
+WOWS NA 0.10.9.0 (GameCenter)
+C:/Games/World_of_Warships
+[10/8/21 21:44:44]
 
 Crosshairs:
   Dynamic Crosshairs:
     + Nomogram Classic
+    + Nomogram Stiv372
+Battle Interface Design Kit:
+  Torpedo trails:
+    + More visible torpedo trails V2
 Ship Icons:
   + Customizable Panels by BADoBEST
 Modifications of the combat interface:
-  + Radar Timer
+  + Radar-Timer
   + Numbergress
-  + Battle in Clock
+  + Clock in Battle
   + Ping Color
   + Detection Timer After Main Battery Fire
   + Running Lights
-  + Score Timer
-  + Movable Vehicle Parameter Panel
+  + Regen Assistant
   + Damage Meter
-  + Secondary Armament
+  - Secondary Armament
   + Ship Telegraph
+  + Companion
   + Compact Quick Commands Panel
   Mini Ship Icons:
     + Team HP
   Minimap Modifications:
-    - AutoSpy Minimap
+    + AutoSpy Minimap
     + Fading Transparent
   Advanced Chat:
     + Advanced Chat BADoBEST
   + Advanced Battle Loading Screen
   Navigator:
-    + Navigator Mini
+    + Navigator Big
 Port:
   + Adjustable Div Chat
-  + Stingy by Default
+  + Scrooge
   + Good News
   + Extended MiniCarousel
-  + All Ships in Tree
-  + Session Stats
+  Ships tech tree:
+    + Vertical
+  + Session stats
   + Camouflage Filters
-  + Port Admiral
-  Bright Awards and Commanders:
+  Bright Awards and Ships:
     + Achievements
-    + Commanders Awards
     + Ships
-  Modified Ports:
-    + Hamburg Advanced Lighting
-    - Flooded City
-    - Monsters Bay
-    - Silver Spear
-    - Orbital Station
-    - Dorm
-    - Black Sea
-    - Twitch
-    + Black Hole
-    - Jacuzzi
-    - Night Dragon
-    - Yokosuka
-    + Night Ocean
 Other Modifications:
-  Environment Modifications:
-    + Remove Fog and Glare plus Calm Sea
-  + Remove Flame Frame
-  Modified Loading Screen:
-    + Skip Loading Video
+  Localizations:
+    + Gun Caliber in mm and Inches [ALL]
   Replays:
     + Replay Enable
-  Sound mods:
-    + Star Wars [EN]
