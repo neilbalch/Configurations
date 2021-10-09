@@ -4,8 +4,7 @@ This repository covers my software configurations for the following applications
 
 - 3D Printing
   - Cura
-    - `CHEP_Cura_Profiles_4.0/*` [CHEPclub](https://www.chepclub.com/startend-gcode.html) Ender 3 Cura profiles for Cura 4.0
-    - `CHEP_Cura_Profiles_4.4/*` [CHEPclub](https://www.chepclub.com/startend-gcode.html) Ender 3 Cura profiles for Cura 4.4
+    - `CHEP_Cura_Profiles_4.11/*` [CHEPclub](https://www.chepclub.com/startend-gcode.html) Ender 3 Cura profiles for Cura 4.11
     - `Ender 3 PETG.curaprofile` Cura profile for PETG on Ender 3
     - `Ender 3 PLA.curaprofile` Cura profile for PLA on Ender 3
     - `Ender 3 TPU.curaprofile` Cura profile for TPU on Ender 3
