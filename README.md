@@ -49,9 +49,6 @@ This repository covers my software configurations for the following applications
   - `.vimrc`
     - With *Vundle* support
     - Without *Vundle* support
-- Quick Reference
-  - `screen`
-  - `sed`
 - TI84 Plus CE Apps (*Use TI Connect to transfer onto calculator*)
 - Visual Studio
   - Settings
