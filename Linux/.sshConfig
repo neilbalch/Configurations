@@ -2,14 +2,22 @@ Host RPi-Comp
   Hostname 192.168.1.11
   User pi
 
-Host RPi-FR24
-  Hostname 192.168.1.12
-  User pi
+#Host RPi-FR24
+#  Hostname 192.168.1.12
+#  User pi
 
 Host RPi-Octoprint
   Hostname 192.168.1.19
   User pi
 
-Host NAS
-  Hostname 192.168.1.16
-  User ubuntu
+Host RPi-NAS
+  Hostname 192.168.1.23
+  User pi
+
+Host csil
+  Hostname csil.cs.ucsb.edu
+  User neilbalch
+
+Host iona
+  Hostname iona.cs.ucsb.edu
+  User neilbalch
