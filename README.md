@@ -4,7 +4,6 @@ This repository covers my software configurations for the following applications
 
 - 3D Printing
   - Cura
-    - `CHEP_Cura_Profiles_4.11/*` [CHEPclub](https://www.chepclub.com/startend-gcode.html) Ender 3 Cura profiles for Cura 4.11
     - `Ender 3 PETG.curaprofile` Cura profile for PETG on Ender 3
     - `Ender 3 PLA.curaprofile` Cura profile for PLA on Ender 3
     - `Ender 3 TPU.curaprofile` Cura profile for TPU on Ender 3
@@ -31,13 +30,15 @@ This repository covers my software configurations for the following applications
   - `Betaflight F405-CTR Dumps` Dated Betaflight FC config dumps on [Matek F405-CTR](http://www.mateksys.com/?portfolio=f405-ctr)
   - `MultiWii_Flip` [Customised MultiWii](http://www.multiwii.com/wiki/?title=Main_Page) FC firmware for [RTFQ Flip MWC](https://readytoflyquads.com/flip-mwc-flight-controller)
 - Firefox
-  - `[profile]/chrome/userChrome.css` Hides the tabbar and sidebar header for use with [Tree Tab](https://addons.mozilla.org/en-US/firefox/addon/tree-tabs/)
+  - `sidebery-data-XXXX.XX.XX-XX.XX.XX.json`: [Sideberry](https://addons.mozilla.org/en-US/firefox/addon/sidebery)
   - `Tree Tabs CUSTOMISED.tt_theme` [Tree Tabs](https://addons.mozilla.org/en-US/firefox/addon/tree-tabs/) theme
+  - `[profile]/chrome/userChrome.css` Hides the tabbar and sidebar header for use with [Tree Tab](https://addons.mozilla.org/en-US/firefox/addon/tree-tabs/)
 - Games
   - FlightGear
     - Mad-Katz-F.L.Y 5 Joystick map
   - WarThunder
     - Mad-Katz-F.L.Y 5 Joystick map for Aircraft
+  - `WoWs Modstation Config.txt`
 - Intellij Idea Settings
 - Linux Stuff
   - Samba Raspberry Pi NAS Configuration

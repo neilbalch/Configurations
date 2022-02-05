@@ -1,18 +1,18 @@
-Windows 10 (10.0.19042) x64 [16 GB]
-WOWS NA 0.10.9.0 (GameCenter)
+Windows 10 (10.0.19043) x64 [16 GB]
+WOWS NA 0.11.0.0 (GameCenter)
 C:/Games/World_of_Warships
-[10/8/21 21:44:44]
+[2/3/2022 17:36:15]
 
 Crosshairs:
   Dynamic Crosshairs:
     + Nomogram Classic
     + Nomogram Stiv372
-Battle Interface Design Kit:
-  Torpedo trails:
-    + More visible torpedo trails V2
 Ship Icons:
   + Customizable Panels by BADoBEST
 Modifications of the combat interface:
+  + Score Timer
+  + Spotted Indicator
+  + ReloadTime
   + Radar-Timer
   + Numbergress
   + Clock in Battle
@@ -21,7 +21,7 @@ Modifications of the combat interface:
   + Running Lights
   + Regen Assistant
   + Damage Meter
-  - Secondary Armament
+  + Secondary Armament
   + Ship Telegraph
   + Companion
   + Compact Quick Commands Panel
@@ -41,7 +41,7 @@ Port:
   + Good News
   + Extended MiniCarousel
   Ships tech tree:
-    + Vertical
+    + Horizontal
   + Session stats
   + Camouflage Filters
   Bright Awards and Ships:
