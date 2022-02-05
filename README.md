@@ -64,6 +64,8 @@ This repository covers my software configurations for the following applications
     - Local Settings
     - `launch.json`
     - `tasks.json`
+  - `extension_installer.py` Utility script to automate re-installing a pre-defined set of VSCode extensions. Useful for initializing a new development environment in the image of another.
+  - `extensions_list.txt` My current list of universally-used extensions
 - Windows
   - `E-YOOSO X-7 Mouse/*` Utilities related to configuring the [E-YOOSO X-7 mouse](https://smile.amazon.com/dp/B083NSD4CG)'s macro keys
     - `2791Driverprogram.exe` Vendor-provided configuration utility
