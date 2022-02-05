@@ -19,8 +19,8 @@ set autoindent
 set clipboard=unnamed
 set colorcolumn=80
 
-" Set swapfiles store in ~/.vim_runtime instead of ./"
-set directory=$HOME/.vim_runtime/swapfiles//
+" Set swapfiles store in ~/.cache/vim/swapfiles instead of ./"
+set directory=$HOME/.cache/vim/swapfiles
 
 " Set C++ syntax for FRC971 .q Queue definition files
 au BufReadPost *.q set syntax=cpp
@@ -35,5 +35,6 @@ augroup filetype
   au! BufRead,BufNewFile BUILD setfiletype python
 augroup end
 
+" Map Ctrl+K to clang-format
 map <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>
 imap <C-k> :pyf /usr/share/vim/addons/syntax/clang-format-3.5.py<CR>i
