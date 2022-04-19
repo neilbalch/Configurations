@@ -118,17 +118,30 @@ fi
 
 # Do the only proper thing...
 export EDITOR=vim
-# Makes GUI Stuff work in WSL
-export DISPLAY=:0
 
-# Creates a directory and then "cd"s into it
+# Check if this environment is WSL and if so, apply relevant configs
+if uname -a | grep "WSL" > /dev/null; then
+  # Makes GUI Stuff work in WSL
+  if uname -a | grep "WSL2" > /dev/null; then
+    # echo "Applying WSL2 X-server config"
+    export DISPLAY=$(ip route list default | awk '{print $3}'):0 # For WSL 2
+  else
+    # echo "Applying WSL1 X-server config"
+    export DISPLAY=:0 # For WSL 1
+  fi
+
+  # Bash environment variable for quick access to the Windows OS User dir path
+  export WinOS=/mnt/c/Users/neilb
+  # CDs into Windows OS User dir
+  WinOS() {
+    cd $WinOS
+  }
+fi
+
+# Creates a directory and then moves into it
 mkdircd() {
   mkdir -p $1
   cd $1
 }
 
-# CDs into Windows OS User dir (WSL)
-WinOS() {
-  cd /mnt/c/Users/neilb
-}
 
