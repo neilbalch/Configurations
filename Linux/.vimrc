@@ -19,7 +19,7 @@ set autoindent
 set clipboard=unnamed
 set colorcolumn=80
 
-" Set swapfiles store in ~/.cache/vim/swapfiles instead of ./"
+" Set swapfiles store in ~/.vim/swapfiles instead of ."
 set directory=$HOME/.cache/vim/swapfiles
 
 " Set C++ syntax for FRC971 .q Queue definition files

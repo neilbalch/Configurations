@@ -118,6 +118,12 @@ fi
 
 # Do the only proper thing...
 export EDITOR=vim
+# Make sure that the vim swapfiles location is present
+if ! ls $HOME/.cache/vim/swapfiles > /dev/null 2>&1; then
+  # https://linuxize.com/post/bash-redirect-stderr-stdout
+  echo "Creating vim swapfiles location"
+  mkdir -p $HOME/.cache/vim/swapfiles
+fi
 
 # Check if this environment is WSL and if so, apply relevant configs
 if uname -a | grep "WSL" > /dev/null; then
