@@ -1,23 +1,38 @@
+# RPi 2B
 Host RPi-Comp
   Hostname 192.168.1.11
   User pi
 
+# RPi B
 #Host RPi-FR24
 #  Hostname 192.168.1.12
 #  User pi
 
+# RPi 3B
 Host RPi-Octoprint
   Hostname 192.168.1.19
   User pi
 
+# RPi 3B+
 Host RPi-NAS
   Hostname 192.168.1.23
   User pi
 
+# RPi 3B+
+Host RPi-Dev
+  # Home
+  #Hostname 192.168.1.105
+  # UCSB-specific DDNS proxy
+  Hostname rpi3bp-nb.ddns.net
+  User pi
+
+# UCSB CS Instructional Lab
 Host csil
   Hostname csil.cs.ucsb.edu
   User neilbalch
 
+# UCSB CS ArchLab work server
 Host iona
   Hostname iona.cs.ucsb.edu
   User neilbalch
+
