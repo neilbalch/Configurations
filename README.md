@@ -64,6 +64,8 @@ This repository covers my software configurations for the following applications
 - `.vimrc`
   - With *Vundle* support
   - Without *Vundle* support
+- `debian-restart-network.sh`: Bash script to reset the network interfaces in a Debian VM (*Used briefly for VirtualBox @ FRC971*)
+- `system_setup.sh`: Bash script to automate personal first-time setup of a Linux installation
 
 ## TI84 Plus CE Apps (*Use TI Connect to transfer onto calculator*)
 
