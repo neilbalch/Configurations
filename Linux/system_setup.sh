@@ -7,11 +7,12 @@ set -x
 clone_repo = true
 
 # Install most-used packages
+sudo apt update
 sudo apt install -y \
   vim git cmake make ant openjdk-17-jre-headless \
   proot qemu-user-static qemu-utils \
   stlink-tools \
-  neofetch gnome-system-monitor top htop bmon iotop \
+  neofetch gnome-system-monitor htop bmon iotop \
   iperf3 qdirstat rsync screen x11-apps
 
 # Install vscode

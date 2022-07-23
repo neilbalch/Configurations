@@ -126,9 +126,9 @@ if ! ls $HOME/.cache/vim/swapfiles > /dev/null 2>&1; then
 fi
 
 # Check if this environment is WSL and if so, apply relevant configs
-if uname -a | grep "WSL" > /dev/null; then
+if uname -a | grep "WSL" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
   # Makes GUI Stuff work in WSL
-  if uname -a | grep "WSL2" > /dev/null; then
+  if uname -a | grep "WSL2" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
     # echo "Applying WSL2 X-server config"
     export DISPLAY=$(ip route list default | awk '{print $3}'):0 # For WSL 2
   else
