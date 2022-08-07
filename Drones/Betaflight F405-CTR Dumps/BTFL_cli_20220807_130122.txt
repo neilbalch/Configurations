@@ -1,0 +1,59 @@
+# diff
+
+# version
+# Betaflight / STM32F405 (S405) 4.3.1 Jul 13 2022 / 03:32:11 (8d4f005) MSP API: 1.44
+# config: manufacturer_id: MTKS, board_name: MATEKF405CTR, version: edcd244b, date: 2022-06-29T02:24:46Z
+
+# start the command batch
+batch start
+
+board_name MATEKF405
+manufacturer_id MTKS
+
+# feature
+feature -RX_PARALLEL_PWM
+
+# aux
+aux 0 0 3 1700 2100 0 0
+aux 1 1 2 900 1300 0 0
+aux 2 2 2 1700 2100 0 0
+aux 3 13 0 1700 2100 0 0
+aux 4 26 3 1700 2100 0 0
+aux 5 35 1 1700 2100 0 0
+
+# master
+set dyn_notch_count = 1
+set dyn_notch_q = 500
+set acc_calibration = -56,61,-254,1
+set serialrx_provider = IBUS
+set dshot_bidir = ON
+set motor_pwm_protocol = DSHOT600
+set bat_capacity = 1500
+set vbat_warning_cell_voltage = 360
+set pid_process_denom = 2
+set osd_units = IMPERIAL
+set osd_warn_batt_not_full = OFF
+set osd_cap_alarm = 1300
+set osd_vbat_pos = 2449
+set osd_rssi_pos = 12
+set osd_link_quality_pos = 9
+set osd_flymode_pos = 2085
+set osd_crosshairs_pos = 2253
+set osd_current_pos = 2438
+set osd_mah_drawn_pos = 2432
+set osd_warnings_pos = 14378
+set osd_avg_cell_voltage_pos = 2455
+set osd_esc_rpm_pos = 101
+set osd_flip_arrow_pos = 2446
+set osd_log_status_pos = 2081
+set vcd_video_system = NTSC
+set gyro_1_align_yaw = 2700
+
+profile 0
+
+rateprofile 0
+
+# end the command batch
+batch end
+
+# 
