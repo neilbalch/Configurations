@@ -1,3 +1,5 @@
+ForwardX11 yes
+
 # RPi 2B
 Host RPi-Comp
   Hostname 192.168.1.11
@@ -35,4 +37,3 @@ Host csil
 Host iona
   Hostname iona.cs.ucsb.edu
   User neilbalch
-

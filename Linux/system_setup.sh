@@ -6,8 +6,9 @@ set -x
 # Clone git repo or just fetch relevant files
 clone_repo = true
 
-# Install most-used packages
+# Install most-used packages and update all others
 sudo apt update
+sudo apt full-upgrade -y
 sudo apt install -y \
   vim git cmake make ant openjdk-17-jre-headless \
   proot qemu-user-static qemu-utils \
@@ -31,6 +32,7 @@ fi
 # Add all dotfiles to the right places
 if [ ! -d ~/.ssh ]; then
    mkdir ~/.ssh
+   ssh-keygen -f ~/.ssh/id_rsa -N ""
 fi
 if [ $clone_repo == true ]; then
   cp ~/Configurations/Linux/.sshconfig ~/.ssh/config
@@ -45,7 +47,24 @@ else
 fi
 
 # Install vscode extensions
-wget https://raw.githubusercontent.com/neilbalch/Configurations/master/VSCode/extension_installer.py
-wget https://raw.githubusercontent.com/neilbalch/Configurations/master/VSCode/extensions_list.txt
-./extension_installer.py
-rm extension_installer.py extensions_list.txt
+if [ $clone_repo == true ]; then
+  cp ~/Configurations/VSCode/extensions_list.txt .
+  ~/Configurations/VSCode/extension_installer.py
+  rm extensions_list.txt
+else
+  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/VSCode/extension_installer.py
+  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/VSCode/extensions_list.txt
+  ./extension_installer.py
+  rm extension_installer.py extensions_list.txt
+fi
+
+# If WSL2, then do the legwork to enable usbipd
+# https://github.com/dorssel/usbipd-win/wiki/WSL-support
+if uname -a | grep "WSL2" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
+  sudo apt install linux-tools-virtual hwdata
+  sudo update-alternatives --install /usr/local/bin/usbip usbip `ls /usr/lib/linux-tools/*/usbip | tail -n1` 20
+fi
+
+# Enable mDNS (NOTE: a specific interface must still be attached manually!)
+sudo systemctl enable systemd-resolved.service
+sudo systemctl start systemd-resolved.service
