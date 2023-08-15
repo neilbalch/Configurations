@@ -125,15 +125,11 @@ if ! ls $HOME/.cache/vim/swapfiles > /dev/null 2>&1; then
   mkdir -p $HOME/.cache/vim/swapfiles
 fi
 
-# Check if this environment is WSL and if so, apply relevant configs
 if uname -a | grep "WSL" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
-  # Makes GUI Stuff work in WSL
-  if uname -a | grep "WSL2" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
-    # echo "Applying WSL2 X-server config"
-    export DISPLAY=$(ip route list default | awk '{print $3}'):0 # For WSL 2
-  else
+  # Makes GUI Stuff work in WSL1, as WSL2 is packaged with an X server
+  if uname -a | grep "WSL " > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
     # echo "Applying WSL1 X-server config"
-    export DISPLAY=:0 # For WSL 1
+    export DISPLAY=:0
   fi
 
   # Bash environment variable for quick access to the Windows OS User dir path
