@@ -16,7 +16,8 @@ sudo apt install -y \
   stlink-tools openocd \
   neofetch gnome-system-monitor htop bmon iotop qdirstat \
   iperf3 qdirstat rsync screen tmux x11-apps xcowsay \
-  unattended-upgrades smartmontools
+  unattended-upgrades smartmontools \
+  zoxide
 sudo pip3 install black pyserial
 
 # Install Bazel
@@ -26,7 +27,7 @@ curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-arch
 sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
 sudo apt update
-sudo apt install bazel
+sudo apt install bazel -y
 
 # Install vscode
 wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb

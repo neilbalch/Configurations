@@ -146,4 +146,7 @@ mkdircd() {
   cd $1
 }
 
+# Prep Zoxide in Bash shell
+# https://github.com/ajeetdsouza/zoxide
+eval "$(zoxide init bash)"
 
