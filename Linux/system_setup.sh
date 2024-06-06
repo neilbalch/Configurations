@@ -17,8 +17,8 @@ sudo apt install -y \
   neofetch gnome-system-monitor htop bmon iotop qdirstat \
   iperf3 qdirstat rsync screen tmux x11-apps xcowsay \
   unattended-upgrades smartmontools \
-  zoxide
-sudo pip3 install black pyserial
+  zoxide ffmpeg
+sudo pip3 install --upgrade black pyserial youtube_dl
 
 # Install Bazel
 # https://bazel.build/install/ubuntu
