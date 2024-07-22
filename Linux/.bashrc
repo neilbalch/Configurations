@@ -140,6 +140,16 @@ if uname -a | grep "WSL" > /dev/null || uname -a | grep "Microsoft" > /dev/null;
   }
 fi
 
+# Check if this environment is a Raspberry Pi and if so, print some useful data
+if lsb_release -a 2>1 | grep "Raspbian" > /dev/null; then
+  # https://unix.stackexchange.com/a/4797/75035
+  # https://stackoverflow.com/a/46163928/3339274
+  echo "Detected local env is $(tr -d '\0' </sys/firmware/devicetree/base/model)"
+  # https://www.raspberrypi.com/documentation/computers/os.html#vcgencmd
+  echo " - GPU throttle temp: $(vcgencmd measure_temp)"
+  echo " - GPU throttle state: $(vcgencmd get_throttled)"
+fi
+
 # Creates a directory and then moves into it
 mkdircd() {
   mkdir -p $1
