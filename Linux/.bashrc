@@ -158,5 +158,6 @@ mkdircd() {
 
 # Prep Zoxide in Bash shell
 # https://github.com/ajeetdsouza/zoxide
+export PATH=$PATH:$HOME/.local/bin
 eval "$(zoxide init bash)"
 
