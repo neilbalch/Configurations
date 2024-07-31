@@ -18,6 +18,9 @@ sudo apt install -y \
   iperf3 qdirstat rsync screen tmux x11-apps xcowsay \
   unattended-upgrades smartmontools \
   zoxide ffmpeg
+# Patch for Zoxide installation (not yet in apt sources)
+# https://github.com/ajeetdsouza/zoxide
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 sudo pip3 install --upgrade black pyserial youtube_dl
 
 # Install Bazel
