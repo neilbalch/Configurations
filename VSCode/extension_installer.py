@@ -10,6 +10,7 @@ import subprocess
 #   instructions: https://stackoverflow.com/a/49398449/3339274
 EXTENSIONS_FILE = "extensions_list.txt"
 
+
 # Required (primarily) because Powershell on Windows saves to 'UTF-16 LE` when
 # using the `> FILENAME` syntax and Python expects `UTF-8` by default
 # https://stackoverflow.com/a/33981557/3339274
@@ -17,6 +18,7 @@ def guess_encoding(csv_file):
     """guess the encoding of the given file"""
     import io
     import locale
+
     with io.open(csv_file, "rb") as f:
         data = f.read(5)
     if data.startswith(b"\xEF\xBB\xBF"):  # UTF-8 with a "BOM"
@@ -31,14 +33,11 @@ def guess_encoding(csv_file):
         except:
             return locale.getdefaultlocale()[1]
 
-with open(EXTENSIONS_FILE, "r", encoding=guess_encoding(EXTENSIONS_FILE)) as file:
-  for line in file.readlines():
-    # https://docs.python.org/3/library/subprocess.html#subprocess.run
-    # https://github.com/minimaxir/automl-gs/issues/13#issuecomment-477102177
-    output = subprocess.run(["code", "--install-extension", line[0:len(line) - 1]],
-                            capture_output=True, shell=True, text=True)
 
-    if(not output.returncode):
-      print(output.stdout[0:len(output.stdout) - 1])
-    else:
-      print(output.stderr)
+with open(EXTENSIONS_FILE, "r", encoding=guess_encoding(EXTENSIONS_FILE)) as file:
+    for line in file.readlines():
+        # https://docs.python.org/3/library/subprocess.html#subprocess.run
+        # https://github.com/minimaxir/automl-gs/issues/13#issuecomment-477102177
+        subprocess.run(
+            ["code", "--install-extension", line[0 : len(line) - 1], "--force"]
+        )

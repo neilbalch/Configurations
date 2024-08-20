@@ -160,4 +160,6 @@ mkdircd() {
 # https://github.com/ajeetdsouza/zoxide
 export PATH=$PATH:$HOME/.local/bin
 eval "$(zoxide init bash)"
+# Prep Golang apps for use in shell (e.g. Bazelisk)
+export PATH=$PATH:$(go env GOPATH)/bin
 
