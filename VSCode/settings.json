@@ -1,107 +1,65 @@
 // Place your settings in this file to overwrite the default settings
+// https://www.coderstool.com/json-sort
 {
-  "debug.toolBarLocation": "docked",
-  "editor.tabSize": 2,
-  "editor.renderWhitespace": "boundary",
-  "editor.insertSpaces": true,
-  "editor.copyWithSyntaxHighlighting": true,
-  "editor.detectIndentation": true,
-  "editor.smoothScrolling": true,
-  "editor.mouseWheelZoom": false,
-  "editor.rulers": [
-    80
-  ],
-  "editor.renderControlCharacters": true,
-  // "editor.formatOnPaste": true,
-  // "editor.formatOnSave": true,
-  "java.format.enabled": false,
-  "java.format.onType.enabled": false,
-  "editor.fontSize": 12,
-  "editor.cursorSmoothCaretAnimation": "on",
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/.classpath": true,
-    "**/.project": true,
-    "**/.settings": true,
-    "**/.factorypath": true
-  },
-  "files.trimTrailingWhitespace": true,
-  "files.autoSave": "afterDelay",
-  "terminal.integrated.fontSize": 12,
-  "terminal.integrated.scrollback": 10000,
-  // "window.zoomLevel": 1,
-  "window.restoreWindows": "all",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
-  "workbench.colorTheme": "Visual Studio Dark",
-  "workbench.settings.editor": "json",
-  "workbench.colorCustomizations": {
-    "statusBar.background": "#005f5f",
-    "statusBar.noFolderBackground": "#005f5f",
-    "statusBar.debuggingBackground": "#005f5f"
-  },
-  "C_Cpp.clang_format_style": "Google",
-  "cSpell.language": "en,en-US",
-  "cSpell.userWords": [
-    "okey"
-  ],
-  "git.autofetch": true,
-  "vim.useSystemClipboard": true,
-  "vim.hlsearch": true,
-  "vim.searchHighlightColor": "rgba(255,0,0,0)",
-  "vim.statusBarColorControl": true,
-  "vsicons.dontShowNewVersionMessage": true,
-  // "platformio-ide.activateOnlyOnPlatformIOProject": true,
-  "platformio-ide.disablePIOHomeStartup": true,
-  "platformio-ide.forceUploadAndMonitor": true,
-  "[javascript]": {
-    "editor.defaultFormatter": "HookyQR.beautify"
-  },
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "editor.suggestSelection": "first",
-  "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
-  },
-  "latex-workshop.view.pdf.viewer": "tab",
-  "terminal.integrated.tabs.enabled": true,
-  "terminal.integrated.tabs.location": "left",
-  "security.workspace.trust.untrustedFiles": "open",
-  "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook"
-  },
-  "git.confirmSync": false,
-  "notebook.cellToolbarLocation": {
-    "default": "right",
-    "jupyter-notebook": "left"
-  },
-  "remote.SSH.remotePlatform": {
-    "192.168.1.40": "linux",
-    "NUC-02": "linux",
-    "boat": "linux",
-    "csil.cs.ucsb.edu": "linux",
-    "eci": "linux",
-    "csil": "linux",
-    "RPi-Dev": "linux",
-    "cs177_bingym": "linux"
-  },
-  "diffEditor.ignoreTrimWhitespace": false,
-  "python.formatting.provider": "black",
-  "redhat.telemetry.enabled": true,
-  "git.terminalAuthentication": false,
-  "cmake.configureOnOpen": false,
-  "workbench.iconTheme": "vscode-icons",
-  "editor.guides.indentation": true,
-  "git.ignoreLegacyWarning": true,
-  "terminal.integrated.enableMultiLinePasteWarning": false,
-  "[python]": {
-    "editor.formatOnType": true
-  },
-  "terminal.integrated.profiles.windows": {
-    "PowerShell": {
-      "source": "PowerShell",
-      "icon": "terminal-powershell"
-    },
+	"C_Cpp.clang_format_style": "Google",
+	"[cpp]": {
+		"editor.defaultFormatter": "ms-vscode.cpptools"
+	},
+	"[python]": {
+		"editor.formatOnType": true
+	},
+	"cSpell.language": "en,en-US",
+	"cSpell.userWords": [
+		"okey"
+	],
+	"cmake.configureOnOpen": false,
+	"debug.toolBarLocation": "docked",
+	"diffEditor.ignoreTrimWhitespace": false,
+	"editor.copyWithSyntaxHighlighting": true,
+	"editor.cursorSmoothCaretAnimation": "on",
+	"editor.detectIndentation": true,
+	"editor.fontSize": 12,
+	"editor.guides.indentation": true,
+	"editor.insertSpaces": true,
+	"editor.mouseWheelZoom": false,
+	"editor.renderControlCharacters": true,
+	"editor.renderWhitespace": "boundary",
+	"editor.rulers": [
+		80
+	],
+	"editor.smoothScrolling": true,
+	"editor.suggestSelection": "first",
+	"editor.tabSize": 2,
+	"files.autoSave": "afterDelay",
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/.classpath": true,
+		"**/.project": true,
+		"**/.settings": true,
+		"**/.factorypath": true
+	},
+	"files.trimTrailingWhitespace": true,
+	"git.autofetch": true,
+	"git.confirmSync": false,
+	"git.ignoreLegacyWarning": true,
+	"git.openRepositoryInParentFolders": "always",
+	"git.terminalAuthentication": false,
+	"java.format.enabled": false,
+	"java.format.onType.enabled": false,
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"notebook.cellToolbarLocation": {
+		"default": "right",
+		"jupyter-notebook": "left"
+	},
+	"platformio-ide.disablePIOHomeStartup": true,
+	"redhat.telemetry.enabled": true,
+	"security.workspace.trust.untrustedFiles": "open",
+	"terminal.integrated.defaultProfile.windows": "Ubuntu (WSL)",
+	"terminal.integrated.enableMultiLinePasteWarning": "never",
+	"terminal.integrated.fontSize": 12,
+	"terminal.integrated.profiles.windows": {
     "Command Prompt": {
       "path": [
         "${env:windir}\\Sysnative\\cmd.exe",
@@ -113,13 +71,32 @@
     "Git Bash": {
       "source": "Git Bash"
     },
-    "Ubuntu (WSL)": {
-      "path": "C:\\WINDOWS\\System32\\wsl.exe",
-      "args": [
-        "-d",
-        "Ubuntu"
-      ]
-    }
-  },
-  "terminal.integrated.defaultProfile.windows": "Ubuntu (WSL)"
+		"PowerShell": {
+			"source": "PowerShell",
+			"icon": "terminal-powershell"
+		},
+		"Ubuntu (WSL)": {
+			"path": "C:\\WINDOWS\\System32\\wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu"
+			]
+		}
+	},
+	"terminal.integrated.scrollback": 10000,
+	"terminal.integrated.tabs.enabled": true,
+	"terminal.integrated.tabs.location": "left",
+	"window.restoreWindows": "all",
+	"window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
+	"workbench.colorCustomizations": {
+		"statusBar.background": "#005f5f",
+		"statusBar.noFolderBackground": "#005f5f",
+		"statusBar.debuggingBackground": "#005f5f"
+	},
+	"workbench.colorTheme": "Visual Studio Dark",
+	"workbench.editorAssociations": {
+		"*.ipynb": "jupyter-notebook"
+	},
+	"workbench.iconTheme": "vscode-icons",
+	"workbench.settings.editor": "json"
 }
