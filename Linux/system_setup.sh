@@ -10,14 +10,10 @@ clone_repo=true
 sudo apt update
 sudo apt full-upgrade -y
 sudo apt install -y \
-  vim git cmake make ant openjdk-17-jre-headless code \
-  python3 python3-pip pipx golang \
-  proot qemu-user-static qemu-utils \
-  stlink-tools openocd \
-  neofetch gnome-system-monitor htop bmon iotop qdirstat \
-  iperf3 qdirstat rsync screen tmux x11-apps xcowsay \
-  unattended-upgrades smartmontools \
-  zoxide ffmpeg fio
+  ant bmon cmake code ffmpeg fio git gnome-system-monitor golang htop iotop \
+  iperf3 make neofetch openjdk-17-jre-headless openocd pipx proot python3 \
+  python3-pip qdirstat qdirstat qemu-user-static qemu-utils rsync screen \
+  smartmontools stlink-tools tmux unattended-upgrades vim x11-apps xcowsay zoxide
 # Patch for Zoxide installation (not yet in apt sources)
 # https://github.com/ajeetdsouza/zoxide
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
@@ -42,7 +38,7 @@ if uname -m | grep "x86_64" > /dev/null; then
   # DEPRECATED: apt has VSCode as "code" package
   # wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb
   # sudo dpkg -i vscode.deb
-  rm vscode.deb
+  # rm vscode.deb
 elif uname -m | grep "aarch64" > /dev/null; then
   echo "Installing aarch64 apps..."
   # Install Bazel through Bazelisk, then use `bazelisk ...` instead of `bazel ...`
