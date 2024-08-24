@@ -22,7 +22,9 @@ pipx install black
 pipx install pyserial
 pipx install youtube_dl
 
-# Amd64-specific tools
+# ------------------------------------------------------------------------------
+# Platform-specific installations
+# ------------------------------------------------------------------------------
 if uname -m | grep "x86_64" > /dev/null; then
   echo "Installing x86 apps..."
   # Install Bazel
@@ -39,6 +41,14 @@ if uname -m | grep "x86_64" > /dev/null; then
   # wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb
   # sudo dpkg -i vscode.deb
   # rm vscode.deb
+
+  # If WSL2, then do the legwork to enable usbipd
+  # https://github.com/dorssel/usbipd-win/wiki/WSL-support
+  echo "Installing WSL2 usbipd tools..."
+  if uname -a | grep "WSL2" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
+    sudo apt install linux-tools-virtual hwdata
+    sudo update-alternatives --install /usr/local/bin/usbip usbip `ls /usr/lib/linux-tools/*/usbip | tail -n1` 20
+  fi
 elif uname -m | grep "aarch64" > /dev/null; then
   echo "Installing aarch64 apps..."
   # Install Bazel through Bazelisk, then use `bazelisk ...` instead of `bazel ...`
@@ -47,47 +57,50 @@ elif uname -m | grep "aarch64" > /dev/null; then
   go install github.com/bazelbuild/bazelisk@latest
 fi
 
-# Clone configurations repo
-if [ $clone_repo = true ]; then
-  if [ ! -d ~/Configurations ]; then
-    git clone https://github.com/neilbalch/Configurations.git ~/Configurations
-  fi
-fi
-
-# Add all dotfiles to the right places
+# Generate SSH keys
 if [ ! -d ~/.ssh ]; then
    mkdir ~/.ssh
    ssh-keygen -f ~/.ssh/id_rsa -N ""
 fi
-if [ $clone_repo == true ]; then
+
+# ------------------------------------------------------------------------------
+# Apply customizations from @neilbalch/Configurations repo
+# ------------------------------------------------------------------------------
+if [ $clone_repo = true ]; then
+  if [ ! -d ~/Configurations ]; then
+    git clone https://github.com/neilbalch/Configurations.git ~/Configurations
+  fi
+
+  # Apply dotfiles
   cp ~/Configurations/Linux/.sshConfig ~/.ssh/config
   cp ~/Configurations/Linux/.bashrc ~/
   cp ~/Configurations/Linux/.vimrc ~/
+  mkdir -p $HOME/.cache/vim/swapfiles
+  mkdir -p /root
+  sudo cp ~/Configurations/Linux/.vimrc /root/
+  sudo mkdir -p /root/.cache/vim/swapfiles
   cp ~/Configurations/Linux/.gitconfig ~/
-else
-  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.sshConfig -O ~/.ssh/config
-  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.bashrc -O ~/.bashrc
-  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.vimrc -O ~/.vimrc
-  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.gitconfig -O ~/.gitconfig
-fi
 
-# Install vscode extensions
-if [ $clone_repo = true ]; then
+  # Install vscode extensions
   cp ~/Configurations/VSCode/extensions_list.txt .
   python3 ~/Configurations/VSCode/extension_installer.py
   rm extensions_list.txt
 else
+  # Apply dotfiles
+  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.sshConfig -O ~/.ssh/config
+  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.bashrc -O ~/.bashrc
+  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.vimrc -O ~/.vimrc
+  mkdir -p $HOME/.cache/vim/swapfiles
+  mkdir -p /root
+  sudo wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.vimrc -O /root/.vimrc
+  sudo mkdir -p /root/.cache/vim/swapfiles
+  wget https://raw.githubusercontent.com/neilbalch/Configurations/master/Linux/.gitconfig -O ~/.gitconfig
+
+  # Install vscode extensions
   wget https://raw.githubusercontent.com/neilbalch/Configurations/master/VSCode/extension_installer.py
   wget https://raw.githubusercontent.com/neilbalch/Configurations/master/VSCode/extensions_list.txt
   ./extension_installer.py
   rm extension_installer.py extensions_list.txt
-fi
-
-# If WSL2, then do the legwork to enable usbipd
-# https://github.com/dorssel/usbipd-win/wiki/WSL-support
-if uname -a | grep "WSL2" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
-  sudo apt install linux-tools-virtual hwdata
-  sudo update-alternatives --install /usr/local/bin/usbip usbip `ls /usr/lib/linux-tools/*/usbip | tail -n1` 20
 fi
 
 # Just for fun :)
