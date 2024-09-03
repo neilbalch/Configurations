@@ -1,26 +1,60 @@
 #!/bin/bash
 
-# https://stackoverflow.com/a/36273740/3339274
-set -x
-
+# ------------------------------------------------------------------------------
+# Flags
+# ------------------------------------------------------------------------------
 # Clone git repo or just fetch relevant files
 clone_repo=true
+# Set which package categories to install
+install_apt_utilities=true
+install_apt_programming=true
+install_apt_rpi=true
+install_apt_install_deps=true
+# ------------------------------------------------------------------------------
+# Settings
+# ------------------------------------------------------------------------------
+# TODO: onboard desktop tools (Firefox, kdenlive, obs, spotify, discord,
+# blender, resolve?, keepassxc, steam, notion, filezilla?, GIMP, GitHub Desktop,
+# Google Drive?, GPX viewer, Inkscape, KiCad, Legion toolkit?, Logitech client?,
+# Libreoffice/openoffice, vlc, Nvidia/AMD/Intel driver, OpenRocket, OpenVPN?,
+# Prusaslicer, Pulseview, qBittorrent, RPi imager, VNC, STM32Cube?, Teamviewer,
+# TI Connect?, etc.)
+apt_utilities="bmon ffmpeg fio gnome-system-monitor gparted htop iotop iperf3 \
+               neofetch qdirstat rsync screen smartmontools tmux \
+               unattended-upgrades vim x11-apps xcowsay zoxide"
+# TODO: onboard FPGA toolchains (Vivado, @sifferman/tangnano_example)
+# TODO: onboard Rust toolchains?
+apt_programming="ant cmake code git make openjdk-17-jre-headless openocd \
+                 stlink-tools"
+apt_rpi="proot qemu-user-static qemu-utils"
+# Required by:    Bazel,  Global Python Packages,
+apt_install_deps="golang pipx python3 python3-pip"
+
+pip_packages=("black" "pyserial" "youtube_dl")
+# ------------------------------------------------------------------------------
+
+apt_packages="" # Filled in later
+# https://en.wikibooks.org/wiki/Bash_Shell_Scripting/Conditional_Expressions
+[[ $install_apt_utilities = true ]] && apt_packages="${apt_packages} ${apt_utilities}"
+[[ $install_apt_programming = true ]] && apt_packages="${apt_packages} ${apt_programming}"
+[[ $install_apt_rpi = true ]] && apt_packages="${apt_packages} ${apt_rpi}"
+[[ $install_apt_install_deps = true ]] && apt_packages="${apt_packages} ${apt_install_deps}"
+
+# https://stackoverflow.com/a/36273740/3339274
+set -x
 
 # Install most-used packages and update all others
 sudo apt update
 sudo apt full-upgrade -y
-sudo apt install -y \
-  ant bmon cmake code ffmpeg fio git gnome-system-monitor golang htop iotop \
-  iperf3 make neofetch openjdk-17-jre-headless openocd pipx proot python3 \
-  python3-pip qdirstat qdirstat qemu-user-static qemu-utils rsync screen \
-  smartmontools stlink-tools tmux unattended-upgrades vim x11-apps xcowsay zoxide
+sudo apt install -y $apt_packages
 # Patch for Zoxide installation (not yet in apt sources)
 # https://github.com/ajeetdsouza/zoxide
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-# :rolling_eyes: https://stackoverflow.com/a/75722775/3339274
-pipx install black
-pipx install pyserial
-pipx install youtube_dl
+# https://stackoverflow.com/a/8880625/3339274
+for i in "${pip_packages[@]}"; do
+  # :rolling_eyes: https://stackoverflow.com/a/75722775/3339274
+  pipx install "$i"
+done
 
 # ------------------------------------------------------------------------------
 # Platform-specific installations
@@ -35,12 +69,6 @@ if uname -m | grep "x86_64" > /dev/null; then
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
   sudo apt update
   sudo apt install bazel -y
-
-  # Install vscode
-  # DEPRECATED: apt has VSCode as "code" package
-  # wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb
-  # sudo dpkg -i vscode.deb
-  # rm vscode.deb
 
   # If WSL2, then do the legwork to enable usbipd
   # https://github.com/dorssel/usbipd-win/wiki/WSL-support
