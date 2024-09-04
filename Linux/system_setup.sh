@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------------
-# Flags and Settings
+# Default Flags and Settings
 # ------------------------------------------------------------------------------
 # Clone git repo or just fetch relevant files
 clone_repo=true
 # Set which package categories to install
 install_apt_desktop=false       # Packages for Desktop Linux
-install_apt_utilities=true      # CLI utilities
-install_apt_programming=true    # Programming tools
-install_fpga=true               # FPGA programming tools
-install_apt_rpi=true            # Raspberry Pi config tools
+install_apt_utilities=false     # CLI utilities
+install_apt_programming=false   # Programming tools
+install_fpga=false              # FPGA programming tools
+install_apt_rpi=false           # Raspberry Pi config tools
 install_apt_install_deps=true   # Install dependencies for other packages
-                                #  should really never be turned off
+
 # Thread count for Make builds
 # Consider only using 1/2 threads on Raspberry Pi to prevent >1G RAM usage from
 # hitting the swapfile and TANKING build performance
@@ -50,6 +50,40 @@ flatpak_desktop="com.discordapp.Discord com.hunterwittenborn.Celeste \
 pip_packages=("black" "pyserial" "youtube_dl")
 # OSS Gowin bitstream tools: https://github.com/YosysHQ/apicula
 pip_fpga=("fusesoc" "apycula")
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# Parse CLI args
+# ------------------------------------------------------------------------------
+# https://linuxconfig.org/bash-script-flags-usage-with-arguments-examples
+while getopts 'Cn:dupfrD' OPTION; do
+  case "$OPTION" in
+    C) clone_repo=false;;
+    n) build_threads=$OPTARG;;
+    d) install_apt_desktop=true;;
+    u) install_apt_utilities=true;;
+    p) install_apt_programming=true;;
+    f) install_fpga=true;;
+    r) install_apt_rpi=true;;
+    D) install_apt_install_deps=false;;
+    ?)
+      echo -e "$(basename $0) [-C] [-n] [-d] [-u] [-p] [-f] [-r] [-D]" >&2
+      echo -e "-C\tDON'T clone the @neilbalch/Configurations repository to $HOME" >&2
+      echo -e "-n\tSet number of make build threads (defaults to $(nproc))" >&2
+      echo -e "-d\tInstall packages for Desktop Linux" >&2
+      echo -e "-u\tInstall CLI utilities" >&2
+      echo -e "-p\tInstall programming tools" >&2
+      echo -e "-f\tInstall FPGA programming tools" >&2
+      echo -e "-r\tInstall Raspberry Pi config tools" >&2
+      echo -e "-D\tDON'T install dependencies for other packages (why?)" >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$(($OPTIND -1))"
+
+# ------------------------------------------------------------------------------
+# apt and flatpak installs
 # ------------------------------------------------------------------------------
 
 apt_packages="" # Filled in later
@@ -160,14 +194,19 @@ if [ $install_fpga ]; then
     echo "Skipping OSS Cad Suite install, it already exists!"
   fi
 
-  # Install nextpnr-gowin (not yet packaged with OSS CAD Suite)
-  git clone https://github.com/YosysHQ/nextpnr
-  cd nextpnr
-  cmake . -DARCH=gowin
-  make -j${build_threads}
-  sudo make install
-  cd ..
-  rm -rf nextpnr
+  if ! which nextpnr-gowin > /dev/null; then
+    # Install nextpnr-gowin (not yet packaged with OSS CAD Suite)
+    git clone https://github.com/YosysHQ/nextpnr
+    cd nextpnr
+    cmake . -DARCH=gowin
+    make -j${build_threads}
+    sudo make install
+    cd ..
+    rm -rf nextpnr
+  else
+    echo "Skipping nextpnr-gowin install, it already exists!"
+  fi
+
 fi
 
 # Generate SSH keys
