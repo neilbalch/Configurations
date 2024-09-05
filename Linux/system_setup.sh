@@ -6,23 +6,25 @@
 # Clone git repo or just fetch relevant files
 clone_repo=true
 # Set which package categories to install
-install_apt_desktop=false       # Packages for Desktop Linux
-install_apt_utilities=false     # CLI utilities
-install_apt_programming=false   # Programming tools
-install_fpga=false              # FPGA programming tools
-install_apt_rpi=false           # Raspberry Pi config tools
-install_apt_install_deps=true   # Install dependencies for other packages
+install_desktop=false       # Packages for Desktop Linux
+install_utilities=false     # CLI utilities
+install_programming=false   # Programming tools
+install_fpga=false          # FPGA programming tools
+install_rpi=false           # Raspberry Pi config tools
+install_install_deps=true   # Install dependencies for other packages
 
 # Thread count for Make builds
 # Consider only using 1/2 threads on Raspberry Pi to prevent >1G RAM usage from
 # hitting the swapfile and TANKING build performance
 build_threads=$(nproc)
+# OSS CAD Suite build date
+oss_build="2024-09-04"
 # ------------------------------------------------------------------------------
 # Package Lists
 # ------------------------------------------------------------------------------
-# TODO: add desktop tools (Resolve, Legion toolkit, Nvidia/AMD/Intel driver,
-#  OpenRocket, RealVNC Viewer, Teamviewer, TI Connect CE)
-# Fusion 360? https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux
+# TODO: add GPU driver instlalls? (Nvidia/AMD/Intel)
+# TODO: add desktop tools (Resolve, OpenRocket)
+# TODO: Fusion 360? https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux
 apt_desktop="blender filezilla firefox gh gimp gpxsee inkscape kdenlive \
              keepassxc kicad libreoffice obs-studio openvpn prusa-slicer \
              pulseview qbittorrent rpi-imager spotify-client steam-installer \
@@ -30,9 +32,13 @@ apt_desktop="blender filezilla firefox gh gimp gpxsee inkscape kdenlive \
 apt_utilities="bmon ffmpeg fio flatpak gnome-system-monitor gparted htop iotop \
                iperf3 neofetch pv qdirstat rsync screen smartmontools tmux \
                unattended-upgrades vim x11-apps xcowsay zoxide"
-# TODO: add desktop FPGA toolchains (Vivado) and STM32Cube
 apt_programming="ant cmake code git make openjdk-17-jre-headless openocd \
                  stlink-tools"
+apt_teamviewer="libminizip1"
+apt_sdrpp="g++ make cmake libfftw3-dev libglfw3 libvolk2-dev zstd"
+apt_openhantek="g++ make cmake fakeroot qttools5-dev libfftw3-dev binutils-dev \
+                libusb-1.0-0-dev libqt5opengl5-dev mesa-common-dev \
+                libgl1-mesa-dev libgles2-mesa-dev rpm"
 apt_fpga="cmake libboost-dev libboost-filesystem-dev libboost-thread-dev \
           libboost-program-options-dev libboost-iostreams-dev libboost-dev \
           libeigen3-dev"
@@ -47,7 +53,9 @@ flatpak_desktop="com.discordapp.Discord com.hunterwittenborn.Celeste \
                  io.github.pwr_solaar.solaar io.github.shiftey.Desktop \
                  org.stellarium.Stellarium"
 
-pip_packages=("black" "pyserial" "youtube_dl")
+# https://github.com/ytdl-org/youtube-dl
+# https://github.com/dlenski/python-vipaccess
+pip_packages=("black" "pyserial" "youtube_dl" "python-vipaccess")
 # OSS Gowin bitstream tools: https://github.com/YosysHQ/apicula
 pip_fpga=("fusesoc" "apycula")
 # ------------------------------------------------------------------------------
@@ -58,12 +66,12 @@ pip_fpga=("fusesoc" "apycula")
 apt_and_flatpak() {
   apt_packages="" # Filled in later
   # https://en.wikibooks.org/wiki/Bash_Shell_Scripting/Conditional_Expressions
-  [ $install_apt_desktop = true ] && apt_packages="${apt_packages} ${apt_desktop}"
-  [ $install_apt_utilities = true ] && apt_packages="${apt_packages} ${apt_utilities}"
-  [ $install_apt_programming = true ] && apt_packages="${apt_packages} ${apt_programming}"
+  [ $install_desktop = true ] && apt_packages="${apt_packages} ${apt_desktop} ${apt_teamviewer}"
+  [ $install_utilities = true ] && apt_packages="${apt_packages} ${apt_utilities}"
+  [ $install_programming = true ] && apt_packages="${apt_packages} ${apt_programming} ${apt_sdrpp} ${apt_openhantek}"
   [ $install_fpga = true ] && apt_packages="${apt_packages} ${apt_fpga}"
-  [ $install_apt_rpi = true ] && apt_packages="${apt_packages} ${apt_rpi}"
-  [ $install_apt_install_deps = true ] && apt_packages="${apt_packages} ${apt_install_deps}"
+  [ $install_rpi = true ] && apt_packages="${apt_packages} ${apt_rpi}"
+  [ $install_install_deps = true ] && apt_packages="${apt_packages} ${apt_install_deps}"
   # https://linuxsimply.com/bash-scripting-tutorial/array/array-operations/array-append
   [ $install_fpga = true ] && pip_packages=(${pip_packages[@]} ${pip_fpga[@]})
 
@@ -72,12 +80,14 @@ apt_and_flatpak() {
     # https://www.spotify.com/us/download/linux
     curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
     (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
     && sudo mkdir -p -m 755 /etc/apt/keyrings \
     && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
     # https://software.opensuse.org/download.html?project=home%3Atumic%3AGPXSee&package=gpxsee
     echo 'deb http://download.opensuse.org/repositories/home:/tumic:/GPXSee/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/home:tumic:GPXSee.list
     curl -fsSL https://download.opensuse.org/repositories/home:tumic:GPXSee/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_tumic_GPXSee.gpg > /dev/null
@@ -85,10 +95,12 @@ apt_and_flatpak() {
   sudo apt update
   sudo apt full-upgrade -y
   sudo apt install -y $apt_packages
+
   if [ $install_desktop ]; then
     flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     flatpak install -y $flatpak_desktop
   fi
+
   # https://stackoverflow.com/a/8880625/3339274
   for i in "${pip_packages[@]}"; do
     # :rolling_eyes: https://stackoverflow.com/a/75722775/3339274
@@ -99,7 +111,7 @@ apt_and_flatpak() {
   # https://github.com/ajeetdsouza/zoxide
   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
-  if [ $install_apt_programming ]; then
+  if [ $install_programming ]; then
     # Rustup is not in apt, only in snap 🤮
     # https://rust-lang.github.io/rustup/installation/other.html
     curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
@@ -150,12 +162,13 @@ tools() {
     # Install OSS CAD Suite: https://github.com/YosysHQ/oss-cad-suite-build
     if ! which yosys > /dev/null; then
       # Download the right binary!
+      # https://stackoverflow.com/a/23909383/3339274
       if uname -m | grep "x86_64" > /dev/null; then
         echo "Installing x86 oss-cad-suite..."
-        wget -O oss-cad-suite.tgz "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-09-04/oss-cad-suite-linux-x64-20240904.tgz"
+        wget -O oss-cad-suite.tgz "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${oss_build}/oss-cad-suite-linux-x64-$(date -d ${oss_build} +'%Y%m%d').tgz"
       elif uname -m | grep "aarch64" > /dev/null; then
         echo "Installing aarch64 oss-cad-suite..."
-        wget -O oss-cad-suite.tgz "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-09-04/oss-cad-suite-linux-arm64-20240904.tgz"
+        wget -O oss-cad-suite.tgz "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${oss_build}/oss-cad-suite-linux-arm64-$(date -d ${oss_build} +'%Y%m%d').tgz"
       fi
 
       # https://superuser.com/a/1601085/342885
@@ -185,6 +198,46 @@ tools() {
       echo "Skipping nextpnr-gowin install, it already exists!"
     fi
 
+  fi
+
+  if [ $install_desktop ] && ! which teamviewer > /dev/null; then
+    # Teamviewer install
+    if uname -m | grep "x86_64" > /dev/null; then
+      echo "Installing x86 Teamviewer..."
+      wget -O teamviewer.deb "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
+    elif uname -m | grep "aarch64" > /dev/null; then
+      echo "Installing aarch64 Teamviewer..."
+      wget -O teamviewer.deb "https://download.teamviewer.com/download/linux/teamviewer_arm64.deb"
+    fi
+
+    sudo dpkg -i teamviewer.deb
+    rm teamviewer.deb
+  fi
+
+  if [ $install_programming ] && ! which sdrpp > /dev/null; then
+    # Install SDR++
+    # https://github.com/AlexandreRouma/SDRPlusPlus?tab=readme-ov-file#building-on-linux--bsd
+    git clone https://github.com/AlexandreRouma/SDRPlusPlus
+    mkdir SDRPlusPlus/build
+    cd SDRPlusPlus/build
+    cmake ..
+    make -j${build_threads}
+    sudo make install
+    cd ../..
+    rm -rf SDRPlusPlus
+  fi
+
+  if [ $install_programming ] && ! which OpenHantek > /dev/null; then
+    # Install OpenHantek
+    # https://github.com/OpenHantek/OpenHantek6022
+    git clone https://github.com/OpenHantek/OpenHantek6022
+    mkdir OpenHantek6022/build
+    cd OpenHantek6022/build
+    cmake ..
+    make -j${build_threads}
+    sudo make install
+    cd ../..
+    rm -rf OpenHantek6022
   fi
 
   # Generate SSH keys
@@ -247,12 +300,12 @@ while getopts 'Cn:dupfrD' OPTION; do
   case "$OPTION" in
     C) clone_repo=false;;
     n) build_threads=$OPTARG;;
-    d) install_apt_desktop=true;;
-    u) install_apt_utilities=true;;
-    p) install_apt_programming=true;;
+    d) install_desktop=true;;
+    u) install_utilities=true;;
+    p) install_programming=true;;
     f) install_fpga=true;;
-    r) install_apt_rpi=true;;
-    D) install_apt_install_deps=false;;
+    r) install_rpi=true;;
+    D) install_install_deps=false;;
     ?)
       echo -e "$(basename $0) [-C] [-n] [-d] [-u] [-p] [-f] [-r] [-D]" >&2
       echo -e "-C\tDON'T clone the @neilbalch/Configurations repository to $HOME" >&2
