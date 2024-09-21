@@ -26,9 +26,8 @@ oss_build="2024-09-04"
 # TODO: add desktop tools (Resolve, OpenRocket)
 # TODO: Fusion 360? https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux
 apt_desktop="blender filezilla firefox gh gimp gpxsee inkscape kdenlive \
-             keepassxc kicad libreoffice obs-studio openvpn prusa-slicer \
-             pulseview qbittorrent rpi-imager spotify-client steam-installer \
-             vlc"
+             keepassxc kicad obs-studio openvpn prusa-slicer pulseview \
+             qbittorrent rpi-imager spotify-client steam-installer vlc"
 apt_utilities="bmon ffmpeg fio flatpak gnome-system-monitor gparted htop iotop \
                iperf3 neofetch pv qdirstat rsync screen smartmontools tmux \
                unattended-upgrades vim x11-apps xcowsay zoxide"
@@ -51,7 +50,7 @@ apt_install_deps="golang pipx python3 python3-pip"
 flatpak_desktop="com.discordapp.Discord com.hunterwittenborn.Celeste \
                  io.github.brunofin.Cohesion io.github.nokse22.Exhibit \
                  io.github.pwr_solaar.solaar io.github.shiftey.Desktop \
-                 org.stellarium.Stellarium"
+                 org.onlyoffice.desktopeditors org.stellarium.Stellarium"
 
 # https://github.com/ytdl-org/youtube-dl
 # https://github.com/dlenski/python-vipaccess
