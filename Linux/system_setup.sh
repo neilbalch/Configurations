@@ -28,9 +28,12 @@ oss_build="2024-09-04"
 apt_desktop="blender filezilla firefox gh gimp gpxsee inkscape kdenlive \
              keepassxc kicad obs-studio openvpn prusa-slicer pulseview \
              qbittorrent rpi-imager spotify-client steam-installer vlc"
-apt_utilities="bmon ffmpeg fio flatpak gnome-system-monitor gparted htop iotop \
-               iperf3 neofetch pv qdirstat rsync screen smartmontools tmux \
-               unattended-upgrades vim x11-apps xcowsay zoxide"
+# devscripts included *only* for `annotate-output` lol
+# https://unix.stackexchange.com/a/186570/75035
+apt_utilities="bmon devscripts ffmpeg fio flatpak gnome-system-monitor gparted \
+               htop iotop iperf3 neofetch pv qdirstat rsync screen \
+               smartmontools tmux unattended-upgrades vim x11-apps xcowsay \
+               zoxide"
 apt_programming="ant cmake code git make openjdk-17-jre-headless openocd \
                  stlink-tools"
 apt_teamviewer="libminizip1"
