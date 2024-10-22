@@ -153,7 +153,7 @@ platform() {
 # Tools init
 # ------------------------------------------------------------------------------
 tools() {
-  # FPGAs?`
+  # FPGAs?
   if [ $install_fpga ]; then
     echo "Installing OSS FPGA toolchain"
     # fusesoc init # Deprecated at some point?
