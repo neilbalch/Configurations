@@ -56,8 +56,9 @@ flatpak_desktop="com.discordapp.Discord com.hunterwittenborn.Celeste \
                  org.onlyoffice.desktopeditors org.stellarium.Stellarium"
 
 # https://github.com/ytdl-org/youtube-dl
+# https://github.com/yt-dlp/yt-dlp
 # https://github.com/dlenski/python-vipaccess
-pip_packages=("black" "pyserial" "youtube_dl" "python-vipaccess")
+pip_packages=("black" "pyserial" "youtube_dl" "yt-dlp" "python-vipaccess")
 # OSS Gowin bitstream tools: https://github.com/YosysHQ/apicula
 pip_fpga=("fusesoc" "apycula")
 # ------------------------------------------------------------------------------
