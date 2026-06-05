@@ -30,8 +30,8 @@ apt_desktop="blender filezilla firefox gh gimp gpxsee inkscape kdenlive \
              qbittorrent rpi-imager spotify-client steam-installer vlc"
 # devscripts included *only* for `annotate-output` lol
 # https://unix.stackexchange.com/a/186570/75035
-apt_utilities="bmon devscripts ffmpeg fio flatpak gnome-system-monitor gparted \
-               htop iotop iperf3 neofetch pv qdirstat rsync screen \
+apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
+               gparted htop iotop iperf3 neofetch pv qdirstat rsync screen \
                smartmontools tmux unattended-upgrades vim x11-apps xcowsay \
                zoxide"
 apt_programming="ant cmake code git make openjdk-17-jre-headless openocd \
