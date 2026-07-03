@@ -12,6 +12,7 @@ install_programming=false   # Programming tools
 install_fpga=false          # FPGA programming tools
 install_rpi=false           # Raspberry Pi config tools
 install_install_deps=true   # Install dependencies for other packages
+install_bento4=false        # Install bento4's MP4 and DASH/HLS/CMAF tools
 
 # Thread count for Make builds
 # Consider only using 1/2 threads on Raspberry Pi to prevent >1G RAM usage from
@@ -292,6 +293,20 @@ configurations() {
   fi
 }
 
+bento4() {
+  if [ $install_bento4 ]; then
+    # TODO: Find a way to make this URL pull the latest version, and be
+    # supported on non-x86_64 platforms. Hopefully this doesn't involve
+    # building from source!
+    # https://github.com/axiomatic-systems/Bento4#cmakemake
+    wget https://www.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-641.x86_64-unknown-linux.zip -O BENTO4-TEMP.zip
+    unzip BENTO4-TEMP.zip
+    sudo cp Bento4-SDK-1-6-0-641.x86_64-unknown-linux/bin/* /usr/local/bin/
+    rm -rf Bento4-SDK-1-6-0-641.x86_64-unknown-linux
+    rm BENTO4-TEMP.zip
+  fi
+}
+
 # Debug mode: https://stackoverflow.com/a/36273740/3339274
 # set -x
 
@@ -309,8 +324,9 @@ while getopts 'Cn:dupfrD' OPTION; do
     f) install_fpga=true;;
     r) install_rpi=true;;
     D) install_install_deps=false;;
+    b) install_bento4=true;;
     ?)
-      echo -e "$(basename $0) [-C] [-n] [-d] [-u] [-p] [-f] [-r] [-D]" >&2
+      echo -e "$(basename $0) [-C] [-n] [-d] [-u] [-p] [-f] [-r] [-D] [b]" >&2
       echo -e "-C\tDON'T clone the @neilbalch/Configurations repository to $HOME" >&2
       echo -e "-n\tSet number of make build threads (defaults to $(nproc))" >&2
       echo -e "-d\tInstall packages for Desktop Linux" >&2
@@ -319,6 +335,7 @@ while getopts 'Cn:dupfrD' OPTION; do
       echo -e "-f\tInstall FPGA programming tools" >&2
       echo -e "-r\tInstall Raspberry Pi config tools" >&2
       echo -e "-D\tDON'T install dependencies for other packages (why?)" >&2
+      echo -e "-b\tInstall Bento4's MP4 and DASH/HLS/CMAF tools" >&2
       exit 1
       ;;
   esac
@@ -330,6 +347,7 @@ apt_and_flatpak
 platform
 tools
 configurations
+bento4
 
 # Just for fun :)
 neofetch
