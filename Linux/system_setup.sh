@@ -81,19 +81,12 @@ apt_and_flatpak() {
 
   # Install most-used packages and update all others
   if [ $install_desktop ]; then
-    # https://www.spotify.com/us/download/linux
-    # curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-    # echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
     (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
     && sudo mkdir -p -m 755 /etc/apt/keyrings \
     && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-
-    # https://software.opensuse.org/download.html?project=home%3Atumic%3AGPXSee&package=gpxsee
-    # echo 'deb http://download.opensuse.org/repositories/home:/tumic:/GPXSee/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/home:tumic:GPXSee.list
-    # curl -fsSL https://download.opensuse.org/repositories/home:tumic:GPXSee/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_tumic_GPXSee.gpg > /dev/null
   fi
   sudo apt update
   sudo apt full-upgrade -y
@@ -110,9 +103,6 @@ apt_and_flatpak() {
     pipx install "$i"
   done
 
-  # Patch for Zoxide installation (not yet in apt sources)
-  # https://github.com/ajeetdsouza/zoxide
-  # curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
   if [ $install_programming ]; then
     # Rustup is not in apt, only in snap 🤮
     # https://rust-lang.github.io/rustup/installation/other.html
@@ -219,7 +209,7 @@ tools() {
     git clone https://github.com/AlexandreRouma/SDRPlusPlus
     mkdir SDRPlusPlus/build
     cd SDRPlusPlus/build
-    cmake ..
+    cmake .. -DOPT_BUILD_AIRSPY_SOURCE=OFF -DOPT_BUILD_AIRSPYHF_SOURCE=OFF
     make -j${build_threads}
     sudo make install
     cd ../..
