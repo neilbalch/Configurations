@@ -1,5 +1,4 @@
-#!/bin/bash
-
+# !/bin/bash
 # ------------------------------------------------------------------------------
 # Default Flags and Settings
 # ------------------------------------------------------------------------------
@@ -23,43 +22,44 @@ oss_build="2024-09-04"
 # ------------------------------------------------------------------------------
 # Package Lists
 # ------------------------------------------------------------------------------
-# TODO: add GPU driver instlalls? (Nvidia/AMD/Intel)
+# TODO: add GPU driver installs? (Nvidia/AMD/Intel)
 # TODO: add desktop tools (Resolve, OpenRocket)
 # TODO: Fusion 360? https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux
-apt_desktop="blender filezilla firefox gh gimp gpxsee inkscape kdenlive \
+apt_desktop="blender filezilla firefox gh gimp inkscape kdenlive \
              keepassxc kicad obs-studio openvpn prusa-slicer pulseview \
-             qbittorrent rpi-imager spotify-client steam-installer vlc"
+             qbittorrent rpi-imager steam-installer vlc"
 # devscripts included *only* for `annotate-output` lol
 # https://unix.stackexchange.com/a/186570/75035
 apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
-               gparted htop iotop iperf3 neofetch pv qdirstat rsync screen \
+               gparted htop iotop iperf3 screenfetch pv qdirstat rsync screen \
                smartmontools tmux unattended-upgrades vim x11-apps xcowsay \
                zoxide"
-apt_programming="ant cmake code git make openjdk-17-jre-headless openocd \
+# TODO: VSCode installer
+apt_programming="ant cmake git make openjdk-17-jre-headless openocd \
                  stlink-tools"
 apt_teamviewer="libminizip1"
-apt_sdrpp="g++ make cmake libfftw3-dev libglfw3 libvolk2-dev zstd"
+apt_sdrpp="g++ make cmake libfftw3-dev libglfw3-dev libzstd-dev libvolk-dev zstd"
 apt_openhantek="g++ make cmake fakeroot qttools5-dev libfftw3-dev binutils-dev \
                 libusb-1.0-0-dev libqt5opengl5-dev mesa-common-dev \
                 libgl1-mesa-dev libgles2-mesa-dev rpm"
 apt_fpga="cmake libboost-dev libboost-filesystem-dev libboost-thread-dev \
           libboost-program-options-dev libboost-iostreams-dev libboost-dev \
-          libeigen3-dev"
-apt_rpi="proot qemu-user-static qemu-utils"
+          libeigen3-dev python3-apycula"
+apt_rpi="proot qemu-user qemu-utils"
 # Required by:    Bazel,  Global Python Packages,
 apt_install_deps="golang pipx python3 python3-pip"
 
 # https://flathub.org
 # TODO: Any of these important? https://flathub.org/apps/category/System/1
 flatpak_desktop="com.discordapp.Discord com.hunterwittenborn.Celeste \
+                 com.spotify.Client org.gpxsee.GPXSee \
                  io.github.brunofin.Cohesion io.github.nokse22.Exhibit \
                  io.github.pwr_solaar.solaar io.github.shiftey.Desktop \
                  org.onlyoffice.desktopeditors org.stellarium.Stellarium"
 
-# https://github.com/ytdl-org/youtube-dl
 # https://github.com/yt-dlp/yt-dlp
 # https://github.com/dlenski/python-vipaccess
-pip_packages=("black" "pyserial" "youtube_dl" "yt-dlp" "python-vipaccess")
+pip_packages=("black" "pyserial" "yt-dlp" "python-vipaccess")
 # OSS Gowin bitstream tools: https://github.com/YosysHQ/apicula
 pip_fpga=("fusesoc" "apycula")
 # ------------------------------------------------------------------------------
@@ -82,9 +82,8 @@ apt_and_flatpak() {
   # Install most-used packages and update all others
   if [ $install_desktop ]; then
     # https://www.spotify.com/us/download/linux
-    curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-
+    # curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+    # echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
     (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
     && sudo mkdir -p -m 755 /etc/apt/keyrings \
@@ -93,8 +92,8 @@ apt_and_flatpak() {
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
     # https://software.opensuse.org/download.html?project=home%3Atumic%3AGPXSee&package=gpxsee
-    echo 'deb http://download.opensuse.org/repositories/home:/tumic:/GPXSee/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/home:tumic:GPXSee.list
-    curl -fsSL https://download.opensuse.org/repositories/home:tumic:GPXSee/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_tumic_GPXSee.gpg > /dev/null
+    # echo 'deb http://download.opensuse.org/repositories/home:/tumic:/GPXSee/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/home:tumic:GPXSee.list
+    # curl -fsSL https://download.opensuse.org/repositories/home:tumic:GPXSee/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_tumic_GPXSee.gpg > /dev/null
   fi
   sudo apt update
   sudo apt full-upgrade -y
@@ -113,8 +112,7 @@ apt_and_flatpak() {
 
   # Patch for Zoxide installation (not yet in apt sources)
   # https://github.com/ajeetdsouza/zoxide
-  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-
+  # curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
   if [ $install_programming ]; then
     # Rustup is not in apt, only in snap 🤮
     # https://rust-lang.github.io/rustup/installation/other.html
@@ -129,19 +127,15 @@ apt_and_flatpak() {
 platform() {
   if uname -m | grep "x86_64" > /dev/null; then
     echo "Installing x86 apps..."
-    # Install Bazel
-    # https://bazel.build/install/ubuntu
-    sudo apt install apt-transport-https curl gnupg -y
-    curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
-    sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
-    sudo apt update
-    sudo apt install bazel -y
+    # Install Bazel through Bazelisk, then use `bazelisk ...` instead of `bazel ...`
+    # https://bazel.build/versions/6.4.0/install/bazelisk
+    # https://github.com/bazelbuild/bazelisk?tab=readme-ov-file#requirements
+    go install github.com/bazelbuild/bazelisk@latest
 
     # If WSL2, then do the legwork to enable usbipd
     # https://github.com/dorssel/usbipd-win/wiki/WSL-support
-    echo "Installing WSL2 usbipd tools..."
     if uname -a | grep "WSL2" > /dev/null || uname -a | grep "Microsoft" > /dev/null; then
+      echo "Installing WSL2 usbipd tools..."
       sudo apt install linux-tools-virtual hwdata
       sudo update-alternatives --install /usr/local/bin/usbip usbip `ls /usr/lib/linux-tools/*/usbip | tail -n1` 20
     fi
@@ -193,7 +187,9 @@ tools() {
       # Install nextpnr-gowin (not yet packaged with OSS CAD Suite)
       git clone https://github.com/YosysHQ/nextpnr
       cd nextpnr
-      cmake . -DARCH=gowin
+      mkdir build
+      cd build
+      cmake .. -DARCH="himbaechel" -DHIMBAECHEL_UARCH="gowin"
       make -j${build_threads}
       sudo make install
       cd ..
@@ -201,7 +197,6 @@ tools() {
     else
       echo "Skipping nextpnr-gowin install, it already exists!"
     fi
-
   fi
 
   if [ $install_desktop ] && ! which teamviewer > /dev/null; then
@@ -294,7 +289,7 @@ configurations() {
 }
 
 bento4() {
-  if [ $install_bento4 ]; then
+  if [ $install_bento4 ] && ! which mp4info > /dev/null; then
     # TODO: Find a way to make this URL pull the latest version, and be
     # supported on non-x86_64 platforms. Hopefully this doesn't involve
     # building from source!
@@ -308,13 +303,13 @@ bento4() {
 }
 
 # Debug mode: https://stackoverflow.com/a/36273740/3339274
-# set -x
+set -x
 
 # ------------------------------------------------------------------------------
 # Parse CLI args
 # ------------------------------------------------------------------------------
 # https://linuxconfig.org/bash-script-flags-usage-with-arguments-examples
-while getopts 'Cn:dupfrD' OPTION; do
+while getopts 'Cn:dupfrDb' OPTION; do
   case "$OPTION" in
     C) clone_repo=false;;
     n) build_threads=$OPTARG;;
@@ -350,4 +345,4 @@ configurations
 bento4
 
 # Just for fun :)
-neofetch
+screenfetch
