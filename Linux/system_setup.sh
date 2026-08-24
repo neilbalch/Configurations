@@ -1,4 +1,5 @@
 # !/bin/bash
+
 # ------------------------------------------------------------------------------
 # Default Flags and Settings
 # ------------------------------------------------------------------------------
@@ -38,10 +39,14 @@ apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
 apt_programming="ant cmake git make openjdk-17-jre-headless openocd \
                  stlink-tools"
 apt_teamviewer="libminizip1"
-apt_sdrpp="g++ make cmake libfftw3-dev libglfw3-dev libzstd-dev libvolk-dev zstd"
+apt_sdrpp="g++ make cmake libfftw3-dev libglfw3-dev libzstd-dev libvolk-dev \
+           zstd libhackrf-dev libairspy-dev librtaudio-dev libiio-dev \
+           libairspyhf-dev libad9361-dev librtlsdr-dev"
 apt_openhantek="g++ make cmake fakeroot qttools5-dev libfftw3-dev binutils-dev \
                 libusb-1.0-0-dev libqt5opengl5-dev mesa-common-dev \
-                libgl1-mesa-dev libgles2-mesa-dev rpm"
+                libgl1-mesa-dev libgles2-mesa-dev rpm \
+                qt6-base-dev qt6-base-dev-tools qt6-tools-dev \
+                qt6-tools-dev-tools libgl-dev libgl1-mesa-dev"
 apt_fpga="cmake libboost-dev libboost-filesystem-dev libboost-thread-dev \
           libboost-program-options-dev libboost-iostreams-dev libboost-dev \
           libeigen3-dev python3-apycula"
@@ -103,11 +108,30 @@ apt_and_flatpak() {
     pipx install "$i"
   done
 
-  if [ $install_programming ]; then
+  if [ "$install_programming" ]; then
     # Rustup is not in apt, only in snap 🤮
     # https://rust-lang.github.io/rustup/installation/other.html
     curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
-    echo "# Init Rust environment\nsource \"$HOME/.cargo/env\"\n" >> $HOME/.bashrc
+
+    # Source environment in current script execution context
+    [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+    # Check if rustc is still not available on PATH after installation
+    if ! command -v rustc > /dev/null 2>&1; then
+      # Ensure Cargo bin dir is added to ~/.bashrc if not already present
+      if ! grep -q '\$HOME/\.cargo/bin' "$HOME/.bashrc" && ! grep -q "$HOME/.cargo/bin" "$HOME/.bashrc"; then
+        printf '\n# Init Rust environment\nexpxort PATH="$HOME/.cargo/bin:$PATH"\n[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"\n' >> "$HOME/.bashrc"
+      fi
+    fi
+
+    if ! which code > /dev/null; then
+      # Install VSCode, per official guidance
+      echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
+      sudo apt install wget gpg && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+      wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O vscode.deb
+      sudo apt install -y ./vscode.deb
+      rm vscode.deb
+    fi
   fi
 }
 
@@ -159,30 +183,31 @@ tools() {
         wget -O oss-cad-suite.tgz "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${oss_build}/oss-cad-suite-linux-arm64-$(date -d ${oss_build} +'%Y%m%d').tgz"
       fi
 
+      sudo mkdir -p /opt/oss-cad-suite
       # https://superuser.com/a/1601085/342885
-      pv oss-cad-suite.tgz | tar -xz
+      pv oss-cad-suite.tgz | tar -x -C /opt/oss-cad-suite --strip-components=1
       rm oss-cad-suite.tgz
-      # TODO: Should more directories be copied over?
-      sudo cp oss-cad-suite/bin/* /usr/local/bin/
-      sudo cp -r oss-cad-suite/lib/* /usr/local/lib/
-      sudo mkdir -p /usr/local/libexec
-      sudo cp -r oss-cad-suite/libexec/* /usr/local/libexec
-      sudo cp -r oss-cad-suite/share/* /usr/local/share
-      rm -rf oss-cad-suite
+      # Expose executables system-wide via symlinks
+      sudo ln -sf /opt/oss-cad-suite/bin/* /usr/local/bin/ 2>/dev/null || true
     else
       echo "Skipping OSS Cad Suite install, it already exists!"
     fi
 
-    if ! which nextpnr-gowin > /dev/null; then
+    if ! which nextpnr-himbaechel > /dev/null; then
+      # Nextpnr expects an updated version of Apycula that doesn't come by 
+      # default
+      pip3 install --upgrade --break-system-packages apycula
+
       # Install nextpnr-gowin (not yet packaged with OSS CAD Suite)
       git clone https://github.com/YosysHQ/nextpnr
-      cd nextpnr
-      mkdir build
-      cd build
-      cmake .. -DARCH="himbaechel" -DHIMBAECHEL_UARCH="gowin"
+      mkdir -p nextpnr/build
+      cd nextpnr/build
+      # Current versions of Apycula don't ship with files for the newer "GW5A"
+      # product series. Exclude it for now
+      cmake .. -DARCH="himbaechel" -DHIMBAECHEL_UARCH="gowin" -DHIMBAECHEL_GOWIN_DEVICES="GW1N-9;GW2A-18"
       make -j${build_threads}
       sudo make install
-      cd ..
+      cd ../..
       rm -rf nextpnr
     else
       echo "Skipping nextpnr-gowin install, it already exists!"
@@ -207,9 +232,9 @@ tools() {
     # Install SDR++
     # https://github.com/AlexandreRouma/SDRPlusPlus?tab=readme-ov-file#building-on-linux--bsd
     git clone https://github.com/AlexandreRouma/SDRPlusPlus
-    mkdir SDRPlusPlus/build
+    mkdir -p SDRPlusPlus/build
     cd SDRPlusPlus/build
-    cmake .. -DOPT_BUILD_AIRSPY_SOURCE=OFF -DOPT_BUILD_AIRSPYHF_SOURCE=OFF
+    cmake ..
     make -j${build_threads}
     sudo make install
     cd ../..
@@ -293,7 +318,7 @@ bento4() {
 }
 
 # Debug mode: https://stackoverflow.com/a/36273740/3339274
-set -x
+# set -x
 
 # ------------------------------------------------------------------------------
 # Parse CLI args
@@ -336,3 +361,4 @@ bento4
 
 # Just for fun :)
 screenfetch
+
