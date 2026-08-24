@@ -28,7 +28,7 @@ oss_build="2024-09-04"
 # TODO: Fusion 360? https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux
 apt_desktop="blender filezilla firefox gh gimp inkscape kdenlive \
              keepassxc kicad obs-studio openvpn prusa-slicer pulseview \
-             qbittorrent rpi-imager steam-installer vlc"
+             qbittorrent rpi-imager vlc"
 # devscripts included *only* for `annotate-output` lol
 # https://unix.stackexchange.com/a/186570/75035
 apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
@@ -91,6 +91,13 @@ apt_and_flatpak() {
     && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+    # Install Steam
+    wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
+    sudo dpkg --add-architecture i386
+    sudo apt update
+    sudo apt install -y ./steam.deb
+    rm steam.deb
 
     # Add Firefox's userChrome.css and enable it
     # Determine absolute source path relative to script location
