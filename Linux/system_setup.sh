@@ -35,7 +35,6 @@ apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
                gparted htop iotop iperf3 screenfetch pv qdirstat rsync screen \
                smartmontools tmux unattended-upgrades vim x11-apps xcowsay \
                zoxide"
-# TODO: VSCode installer
 apt_programming="ant cmake git make openjdk-17-jre-headless openocd \
                  stlink-tools"
 apt_teamviewer="libminizip1"
@@ -92,6 +91,55 @@ apt_and_flatpak() {
     && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+    # Add Firefox's userChrome.css and enable it
+    # Determine absolute source path relative to script location
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    SOURCE_CSS="$(cd "$SCRIPT_DIR/../Firefox" 2>/dev/null && pwd)/userChrome.css"
+
+    if [ ! -f "$SOURCE_CSS" ]; then
+      echo "Warning: Skipping Firefox setup. Could not find source CSS at: $SCRIPT_DIR/../Firefox/userChrome.css"
+    else
+      SNAP_FF_DIR="$HOME/snap/firefox/common/.mozilla/firefox"
+
+      # Match any profile directory matching *.default or *.default*
+      PROFILE_DIR=$(find "$SNAP_FF_DIR" -maxdepth 1 -type d -name "*.default*" 2>/dev/null | head -n 1)
+
+      if [ -z "$PROFILE_DIR" ] || [ ! -d "$PROFILE_DIR" ]; then
+        echo "Warning: Skipping Firefox setup. Snap user profile directory not found under $SNAP_FF_DIR."
+      else
+        echo "Configuring Firefox profile at: $PROFILE_DIR"
+
+        # Create chrome directory
+        mkdir -p "$PROFILE_DIR/chrome"
+
+        # Copy source userChrome.css
+        cp "$SOURCE_CSS" "$PROFILE_DIR/chrome/userChrome.css"
+
+        # Function to safely append a user_pref if it doesn't already exist in user.js
+        set_user_pref() {
+          local pref="$1"
+          local val="$2"
+          local line="user_pref(\"$pref\", $val);"
+
+          if ! grep -q "user_pref(\"$pref\"," "$PROFILE_DIR/user.js" 2>/dev/null; then
+            echo "$line" >> "$PROFILE_DIR/user.js"
+            echo "Added preference: $pref"
+          fi
+        }
+
+        # Apply all required Firefox preferences safely
+        # Enable CSS customization
+        set_user_pref "toolkit.legacyUserProfileCustomizations.stylesheets" "true"
+        # Enable the menu bar, since the CSS hides the tab bar that usually 
+        # contains the window control buttons
+        set_user_pref "ui.menu.autohide" "false"
+        # Enable CSS edits to the sidebar feature
+        set_user_pref "sidebar.revamp" "false"
+        # Disable native sidebar header
+        set_user_pref "sidebar.visibility" '"hide-header"'
+      fi
+    fi
   fi
   sudo apt update
   sudo apt full-upgrade -y
