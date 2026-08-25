@@ -24,11 +24,11 @@ oss_build="2024-09-04"
 # Package Lists
 # ------------------------------------------------------------------------------
 # TODO: add GPU driver installs? (Nvidia/AMD/Intel)
-# TODO: add desktop tools (Resolve, OpenRocket)
+# TODO: add desktop tools (Resolve)
 # TODO: Fusion 360? https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux
 apt_desktop="blender filezilla firefox gh gimp inkscape kdenlive \
              keepassxc kicad obs-studio openvpn prusa-slicer pulseview \
-             qbittorrent rpi-imager vlc"
+             octave qbittorrent rpi-imager vlc"
 # devscripts included *only* for `annotate-output` lol
 # https://unix.stackexchange.com/a/186570/75035
 apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
@@ -68,6 +68,197 @@ pip_packages=("black" "pyserial" "yt-dlp" "python-vipaccess")
 pip_fpga=("fusesoc" "apycula")
 # ------------------------------------------------------------------------------
 
+install_openrocket() {
+  local install_dir="$HOME/.local/share/OpenRocket"
+  local executable="$install_dir/OpenRocket"
+
+  if [ -f "$executable" ] || command -v openrocket &> /dev/null; then
+    echo "OpenRocket is already installed."
+    return 0
+  fi
+
+  local arch=$(uname -m)
+  local arch_pattern
+  case "$arch" in
+    x86_64)  arch_pattern="x86_64|amd64" ;;
+    aarch64) arch_pattern="aarch64|arm64" ;;
+    *)       arch_pattern="$arch" ;;
+  esac
+
+  local url
+  url=$(curl -s https://api.github.com/repos/openrocket/openrocket/releases/latest \
+    | jq -r ".assets[] | select(.name | test(\"Linux.*($arch_pattern)\"; \"i\")) | .browser_download_url")
+
+  local installer_name
+  installer_name=$(basename "$url")
+
+  echo "Downloading OpenRocket"
+  wget -q --show-progress "$url" -O "$installer_name"
+  chmod +x "$installer_name"
+  echo "Installing OpenRocket"
+  ./"$installer_name" -q -console
+  rm "$installer_name"
+}
+
+install_albert_palette() {
+  echo "=== Setting up Albert Command Palette ==="
+
+  # 1. Add OBS Repository and GPG Key dynamically based on Ubuntu release
+  local ubuntu_ver
+  ubuntu_ver=$(lsb_release -rs)
+
+  echo "Adding Albert APT repository for Ubuntu ${ubuntu_ver}..."
+  curl -fsSL "https://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_${ubuntu_ver}/Release.key" \
+    | gpg --dearmor \
+    | sudo tee /etc/apt/trusted.gpg.d/home_manuelschneid3r.gpg > /dev/null
+
+  echo "deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_${ubuntu_ver}/ /" \
+    | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+
+  # 2. Update indices and install packages (including Qalculate CLI engine)
+  echo "Installing Albert & Qalculate dependencies..."
+  sudo apt-get update
+  sudo apt-get install -y albert qalc libqalculate-dev
+
+  # 3. Stop running instance to avoid config file write race conditions
+  systemctl --user stop albert.service 2>/dev/null || true
+  killall albert 2>/dev/null || true
+
+  # 4. Pre-configure enabled plugins in albert.conf
+  echo "Configuring default enabled plugins..."
+  local config_dir="$HOME/.config/albert"
+  mkdir -p "$config_dir"
+
+  # Function to safely inject/update key-values in INI sections
+  configure_albert_ini() {
+    local conf_file="$1"
+
+    # Write or update General/plugins section for active plugins
+    if grep -q "^\[plugins\]" "$conf_file" 2>/dev/null; then
+      sed -i '/^\[plugins\]/,/^\[/ s/^enabled=.*/enabled=applications, bluetooth, calculator, clipboard, commandline, datetime, files, ssh, timer, websearch/' "$conf_file"
+    else
+      cat << 'INI' >> "$conf_file"
+
+[General]
+plugins=applications, bluetooth, calculator, clipboard, commandline, datetime, files, ssh, timer, websearch
+
+[plugins]
+enabled=applications, bluetooth, calculator, clipboard, commandline, datetime, files, ssh, timer, websearch
+
+[applications]
+enabled=true
+
+[bluetooth]
+enabled=true
+
+[calculator]
+enabled=true
+
+[clipboard]
+enabled=true
+
+[commandline]
+enabled=true
+
+[datetime]
+enabled=true
+
+[files]
+enabled=true
+
+[ssh]
+enabled=true
+
+[timer]
+enabled=true
+
+[websearch]
+enabled=true
+INI
+    fi
+  }
+
+  configure_albert_ini "$config_dir/albert.conf"
+  configure_albert_ini "$HOME/.config/albert.conf"
+
+  # 5. Create systemd user service directory and unit
+  local service_dir="$HOME/.config/systemd/user"
+  mkdir -p "$service_dir"
+
+  echo "Configuring systemd user service..."
+  cat << 'EOF' > "$service_dir/albert.service"
+[Unit]
+Description=Albert Command Palette Daemon
+Documentation=man:albert(1)
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/albert
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=graphical-session.target
+EOF
+
+  # 6. Reload user systemd daemon and start service
+  echo "Enabling Albert background daemon..."
+  systemctl --user daemon-reload
+  systemctl --user enable --now albert.service
+
+  echo "=== Albert Installation Complete ==="
+}
+
+configure_albert_shortcut() {
+  echo "=== Configuring KDE Keyboard Shortcut for Albert ==="
+
+  local shortcut="Alt+Space"
+  local config_file="$HOME/.config/kglobalshortcutsrc"
+
+  # Detect kwriteconfig version (Plasma 6 vs Plasma 5)
+  local kwrite_cmd="kwriteconfig6"
+  if ! command -v "$kwrite_cmd" &> /dev/null; then
+    kwrite_cmd="kwriteconfig5"
+  fi
+
+  if ! command -v "$kwrite_cmd" &> /dev/null; then
+    echo "Warning: kwriteconfig utility not found. Please set the shortcut manually in KDE System Settings."
+    return 1
+  fi
+
+  # 1. Clear conflicting KRunner shortcut if it uses Alt+Space
+  echo "Checking for shortcut conflicts..."
+  "$kwrite_cmd" --file "$config_file" --group "krunner" --key "_launch" "none,Alt+Space,KRunner"
+
+  # 2. Add Albert toggle entry to kglobalshortcutsrc
+  echo "Setting $shortcut to trigger 'albert toggle'..."
+  "$kwrite_cmd" --file "$config_file" --group "org.kde.customshortcuts.o1" --key "albert_toggle" "$shortcut,,Toggle Albert"
+
+  # 3. Register a custom command in KDE Commands config
+  local custom_shortcuts_cfg="$HOME/.config/khotkeysrc"
+
+  # Register shortcut live via kglobalaccel D-Bus interface so it applies instantly
+  if command -v gdbus &> /dev/null; then
+    echo "Registering shortcut live via D-Bus..."
+    gdbus call --session \
+      --dest org.kde.kglobalaccel \
+      --object-path /kglobalaccel \
+      --method org.kde.KGlobalAccel.setShortcutKeys \
+      "['customshortcuts', 'albert_toggle', 'Custom Shortcuts', 'Toggle Albert']" \
+      "[([$((0x08000000 | 0x20)), 0, 0, 0],)]" 4 &> /dev/null || true
+  fi
+
+  # 4. Trigger KWin/kglobalaccel config reload
+  if command -v qdbus &> /dev/null; then
+    qdbus org.kde.KWin /KWin org.kde.KWin.reconfigure &> /dev/null || true
+  fi
+
+  echo "=== Shortcut Configuration Complete ==="
+  echo "Shortcut registered: [$shortcut] -> 'albert toggle'"
+}
+
 # ------------------------------------------------------------------------------
 # apt and flatpak installs
 # ------------------------------------------------------------------------------
@@ -93,11 +284,20 @@ apt_and_flatpak() {
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
     # Install Steam
-    wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
-    sudo dpkg --add-architecture i386
-    sudo apt update
-    sudo apt install -y ./steam.deb
-    rm steam.deb
+    if ! command -v steam > /dev/null 2>&1; then
+      wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
+      sudo dpkg --add-architecture i386
+      sudo apt update
+      sudo apt install -y ./steam.deb
+      rm steam.deb
+    fi
+
+    # Run the installer function
+    install_albert_palette
+    # Run the shortcut configuration
+    configure_albert_shortcut
+
+    install_openrocket
 
     # Add Firefox's userChrome.css and enable it
     # Determine absolute source path relative to script location
@@ -406,6 +606,11 @@ while getopts 'Cn:dupfrDb' OPTION; do
   esac
 done
 shift "$(($OPTIND -1))"
+
+# Make sure the current user can use serial ports
+echo "Adding current user to dialout group"
+sudo usermod -aG dialout,tty $USER
+newgrp dialout
 
 # Invoke all the things
 apt_and_flatpak
