@@ -440,7 +440,7 @@ tools() {
 
       sudo mkdir -p /opt/oss-cad-suite
       # https://superuser.com/a/1601085/342885
-      pv oss-cad-suite.tgz | tar -x -C /opt/oss-cad-suite --strip-components=1
+      pv oss-cad-suite.tgz | sudo tar -xz -C /opt/oss-cad-suite --strip-components=1
       rm oss-cad-suite.tgz
       # Expose executables system-wide via symlinks
       sudo ln -sf /opt/oss-cad-suite/bin/* /usr/local/bin/ 2>/dev/null || true
@@ -465,7 +465,7 @@ tools() {
       cd ../..
       rm -rf nextpnr
     else
-      echo "Skipping nextpnr-gowin install, it already exists!"
+      echo "Skipping nextpnr-himbaechel install, it already exists!"
     fi
   fi
 

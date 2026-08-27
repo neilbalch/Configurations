@@ -359,3 +359,6 @@ killall -9 plasmashell 2>/dev/null || true
 plasmashell --replace &
 
 echo "Done! Searching by device name '$DEVICE_NAME' resolved IP to $TARGET_IP."
+echo "Use the following command to launch a test environment to see how the widget works"
+echo "plasmoidviewer -a ~/.local/share/plasma/plasmoids/org.kde.desklamp"
+
