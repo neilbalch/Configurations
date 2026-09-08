@@ -34,7 +34,7 @@ apt_desktop="blender filezilla firefox gh gimp inkscape kdenlive \
 apt_utilities="bmon btop devscripts ffmpeg fio flatpak gnome-system-monitor \
                gparted htop iotop iperf3 screenfetch pv qdirstat rsync screen \
                smartmontools tmux unattended-upgrades vim x11-apps xcowsay \
-               zoxide"
+               openssh-server zoxide"
 apt_programming="ant cmake git make openjdk-17-jre-headless openocd \
                  stlink-tools"
 apt_teamviewer="libminizip1"
@@ -274,8 +274,15 @@ apt_and_flatpak() {
   # https://linuxsimply.com/bash-scripting-tutorial/array/array-operations/array-append
   [ $install_fpga = true ] && pip_packages=(${pip_packages[@]} ${pip_fpga[@]})
 
+  sudo apt update
+  sudo apt full-upgrade -y
+  sudo apt install -y $apt_packages
+
   # Install most-used packages and update all others
   if [ $install_desktop ]; then
+    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install -y $flatpak_desktop
+    
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
     (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
     && sudo mkdir -p -m 755 /etc/apt/keyrings \
@@ -348,13 +355,10 @@ apt_and_flatpak() {
       fi
     fi
   fi
-  sudo apt update
-  sudo apt full-upgrade -y
-  sudo apt install -y $apt_packages
 
-  if [ $install_desktop ]; then
-    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    flatpak install -y $flatpak_desktop
+  if [ $install_utilities ]; then
+    # Allow incoming SSH traffic
+    sudo ufw allow ssh
   fi
 
   # https://stackoverflow.com/a/8880625/3339274
