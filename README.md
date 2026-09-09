@@ -55,7 +55,6 @@ This repository covers my software configurations for the following applications
 
 ## Linux Stuff
 
-- Samba Raspberry Pi NAS Configuration
 - Raspberry Pi Scripts
   - `wifi-to-eth-route.service` Wireless bridge `systemctl` service script (*located in `/etc/systemd/system`*) and started on boot by `systemctl` once service is enabled
   - `wifi-to-eth-route.sh` Bash script that reconfigures the RPi `eth0` LAN port as a wireless bridge from the WiFi connection. Forked from [arpitjindal97/raspbian-recipes](https://github.com/arpitjindal97/raspbian-recipes)
@@ -67,7 +66,7 @@ This repository covers my software configurations for the following applications
 - `debian-restart-network.sh`: Bash script to reset the network interfaces in a Debian VM (*Used briefly for VirtualBox @ FRC971*)
 - `system_setup.sh`: Bash script to automate personal first-time setup of a Linux installation
 
-## TI84 Plus CE Apps (*Use TI Connect to transfer onto calculator*)
+## TI84 Plus CE Apps (*Use [TI Connect](https://education.ti.com/en/products/computer-software/ti-connect-ce-sw) to transfer onto calculator*)
 
 Various apps in each subfolder.
 

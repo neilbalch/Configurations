@@ -1,5 +1,36 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* 1. Hide Top Native Tabs Bar */
 #TabsToolbar {
-    visibility: collapse !important;
+  visibility: collapse !important;
 }
-#sidebar-header { display: none; }
+
+/* 2. Hide Sidebar Header ("Sidebery" title & close button) */
+#sidebar-header,
+#sidebar-box #sidebar-header,
+#sidebar-header-container,
+sidebar-header,
+.sidebar-panel-header {
+  display: none !important;
+  visibility: collapse !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 3. Hide Vertical Sidebar Icon Bar (the thin strip to the left) */
+#sidebar-select-box,
+#sidebar-box #sidebar-select-box,
+#sidebar-switcher-target,
+#sidebar-main,
+sidebar-main,
+#sidebar-toolbar,
+sidebar-toolbar,
+.sidebar-panel-header {
+  display: none !important;
+  visibility: collapse !important;
+}
+
