@@ -40,6 +40,10 @@ MAX_PAYLOAD = 65535
 # After FIN, give the bulb a beat to free its single accept slot for the
 # Kasa app (or the next widget command). Never keep a socket across calls.
 POST_CLOSE_IDLE = 0.05
+# UDP get_sysinfo only. `kasa discover list` follows up with TCP to every
+# device, and a mid-TCP close knocks the LB120 off Wi-Fi.
+DISCOVER_TIMEOUT = 3.0
+DISCOVER_PACKETS = 3
 
 
 def emit(payload: dict, code: int = 0) -> None:
@@ -242,16 +246,145 @@ def cmd_toggle(host: str) -> dict:
     return result
 
 
-def cmd_find(name: str) -> dict:
-    """UDP list only: `kasa discover list` still TCP-updates every device; skip it."""
-    emit(
-        {
-            "ok": False,
-            "error": "find is disabled; pass --host (kasa discover dumps every device)",
-        },
-        2,
-    )
-    raise AssertionError("unreachable")
+class FindError(Exception):
+    """Expected discovery failure with a message safe to show in the widget."""
+
+
+def ipv4_broadcasts() -> list[str]:
+    """Global broadcast plus each interface's directed broadcast.
+
+    255.255.255.255 follows the default route, which is the wrong NIC when a
+    VPN is up. Directed broadcasts still reach the lamp's subnet.
+    """
+    targets = ["255.255.255.255"]
+    ip_bin = shutil.which("ip")
+    if not ip_bin:
+        return targets
+    try:
+        proc = subprocess.run(
+            [ip_bin, "-4", "-o", "addr", "show", "up"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=2,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return targets
+    for line in proc.stdout.splitlines():
+        parts = line.split()
+        if "brd" not in parts:
+            continue
+        idx = parts.index("brd")
+        if idx + 1 >= len(parts):
+            continue
+        brd = parts[idx + 1]
+        if brd and brd not in targets and brd != "0.0.0.0":
+            targets.append(brd)
+    return targets
+
+
+def decode_discovery_datagram(data: bytes) -> dict | None:
+    """Legacy discovery replies are XOR'd and have no length header."""
+    blobs = [data]
+    if len(data) > 4:
+        blobs.append(data[4:])
+    for blob in blobs:
+        try:
+            info = json.loads(xor_decrypt(blob).strip("\x00").strip())
+        except (json.JSONDecodeError, UnicodeDecodeError, ValueError):
+            continue
+        if not isinstance(info, dict):
+            continue
+        system = info.get("system")
+        if isinstance(system, dict) and isinstance(system.get("get_sysinfo"), dict):
+            return system["get_sysinfo"]
+        if "alias" in info or "mic_type" in info or "mac" in info:
+            return info
+    return None
+
+
+def select_lamp(devices: dict[str, dict], name: str, mac: str) -> tuple[str, dict]:
+    """Pick the desk lamp. MAC wins; otherwise a unique alias match."""
+    want_mac = format_mac(mac)
+    want_name = name.strip().lower()
+    if not want_mac and not want_name:
+        raise FindError("find needs a device name or MAC")
+
+    by_name: list[tuple[str, dict]] = []
+    for ip, info in devices.items():
+        if want_mac and mac_from_sysinfo(info) == want_mac:
+            return ip, info
+        alias = str(info.get("alias") or "").strip().lower()
+        if want_name and alias == want_name:
+            by_name.append((ip, info))
+
+    if len(by_name) == 1:
+        return by_name[0]
+    if len(by_name) > 1:
+        hosts = ", ".join(sorted(ip for ip, _ in by_name))
+        raise FindError(f"more than one device is named {name}: {hosts}")
+    raise FindError(f"Could not find {name} on the network")
+
+
+def discover_legacy(mac: str, timeout: float = DISCOVER_TIMEOUT) -> dict[str, dict]:
+    """Broadcast legacy get_sysinfo on UDP 9999. Never opens TCP."""
+    query = json.dumps({"system": {"get_sysinfo": {}}}, separators=(",", ":"))
+    packet = xor_encrypt(query)[4:]
+    want_mac = format_mac(mac)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    try:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    except OSError:
+        pass
+    found: dict[str, dict] = {}
+    try:
+        sock.bind(("0.0.0.0", 0))
+        targets = ipv4_broadcasts()
+        deadline = time.monotonic() + timeout
+        spacing = timeout / DISCOVER_PACKETS
+        next_send = time.monotonic()
+        sent = 0
+        while time.monotonic() < deadline:
+            now = time.monotonic()
+            if sent < DISCOVER_PACKETS and now >= next_send:
+                for target in targets:
+                    try:
+                        sock.sendto(packet, (target, PORT))
+                    except OSError:
+                        continue
+                sent += 1
+                next_send = now + spacing
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            sock.settimeout(min(0.2, remaining))
+            try:
+                data, addr = sock.recvfrom(MAX_PAYLOAD)
+            except TimeoutError:
+                continue
+            except OSError:
+                continue
+            ip = addr[0]
+            if ip in found:
+                continue
+            info = decode_discovery_datagram(data)
+            if info is None:
+                continue
+            found[ip] = info
+            if want_mac and mac_from_sysinfo(info) == want_mac:
+                break
+        return found
+    finally:
+        sock.close()
+
+
+def cmd_find(name: str, mac: str = "") -> dict:
+    """Rediscover the lamp after a DHCP change. UDP only; no TCP."""
+    ip, info = select_lamp(discover_legacy(mac), name, mac)
+    result = light_from_sysinfo(info, ip)
+    result["discovered"] = True
+    return result
 
 
 @contextmanager
@@ -282,6 +415,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="LB120 kasa CLI wrapper for the Plasma widget")
     parser.add_argument("--host", default="", help="Device IP")
     parser.add_argument("--name", default="Desk Corner")
+    parser.add_argument("--mac", default="", help="Prefer this MAC when rediscovering")
     parser.add_argument(
         "action",
         choices=("get", "on", "off", "toggle", "brightness", "temperature", "find"),
@@ -302,7 +436,7 @@ def main() -> None:
         )
     try:
         if args.action == "find":
-            cmd_find(args.name)
+            emit(cmd_find(args.name, args.mac))
         if not args.host:
             emit({"ok": False, "error": "--host is required"}, 2)
         if args.action == "get":
@@ -323,6 +457,8 @@ def main() -> None:
             emit(cmd_set(args.host, {"color_temp": args.value, "ignore_default": 1}))
     except subprocess.TimeoutExpired:
         emit({"ok": False, "error": "kasa timed out"}, 1)
+    except FindError as exc:
+        emit({"ok": False, "error": str(exc)}, 1)
     except Exception as exc:
         emit({"ok": False, "error": f"{type(exc).__name__}: {exc}"}, 1)
 

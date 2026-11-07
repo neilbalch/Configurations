@@ -59,18 +59,29 @@ json_field() {
     printf '%s' "${1:-}" | "$JSON_PY" -c "import json,sys; print(json.loads(sys.stdin.read()).get('$2',''))"
 }
 
-GET_JSON="$("$HELPER" --host "$FALLBACK_IP" get 2>/dev/null || true)"
-if json_ok "${GET_JSON:-}" && printf '%s' "$GET_JSON" | "$JSON_PY" -c "
+# UDP broadcast only. Do not `kasa discover`: that opens TCP to every device.
+FIND_JSON="$("$HELPER" --name "$DEVICE_NAME" find 2>/dev/null || true)"
+if json_ok "${FIND_JSON:-}"; then
+    TARGET_IP="$(json_field "$FIND_JSON" host)"
+    TARGET_MAC="$(json_field "$FIND_JSON" mac)"
+    echo "    [+] '$DEVICE_NAME' discovered at $TARGET_IP"
+fi
+
+if [ -z "$TARGET_IP" ]; then
+    echo "    [.] Discovery did not find '$DEVICE_NAME'; trying $FALLBACK_IP"
+    GET_JSON="$("$HELPER" --host "$FALLBACK_IP" get 2>/dev/null || true)"
+    if json_ok "${GET_JSON:-}" && printf '%s' "$GET_JSON" | "$JSON_PY" -c "
 import json,sys
 d=json.loads(sys.stdin.read())
 sys.exit(0 if '$DEVICE_NAME'.lower() in str(d.get('alias','')).lower() else 1)
 "; then
-    TARGET_IP="$FALLBACK_IP"
-    TARGET_MAC="$(json_field "$GET_JSON" mac)"
-    echo "    [+] '$DEVICE_NAME' answered get_sysinfo at $TARGET_IP"
-else
-    echo "    [.] $FALLBACK_IP did not identify as '$DEVICE_NAME'; using fallback (no kasa discover)."
-    TARGET_IP="$FALLBACK_IP"
+        TARGET_IP="$FALLBACK_IP"
+        TARGET_MAC="$(json_field "$GET_JSON" mac)"
+        echo "    [+] '$DEVICE_NAME' answered get_sysinfo at $TARGET_IP"
+    else
+        echo "    [.] $FALLBACK_IP did not identify as '$DEVICE_NAME'; using fallback."
+        TARGET_IP="$FALLBACK_IP"
+    fi
 fi
 
 echo "==> 5. Writing metadata.json..."
@@ -87,7 +98,7 @@ cat << 'EOF' > "$PLASMOID_DIR/metadata.json"
         "Icon": "lightbulb",
         "Id": "org.kde.desklamp",
         "Name": "Desk Lamp Control",
-        "Version": "1.2",
+        "Version": "1.3",
         "Website": ""
     },
     "KPackageStructure": "Plasma/Applet",
@@ -106,7 +117,29 @@ cat << 'EOF' > "$ICONS_DIR/desklamp.svg"
 </svg>
 EOF
 
-echo "==> 7. Writing contents/ui/main.qml (host $TARGET_IP)..."
+echo "==> 7. Writing contents/config/main.xml..."
+mkdir -p "$CONTENTS_DIR/config"
+cat << EOF > "$CONTENTS_DIR/config/main.xml"
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="host" type="String">
+      <label>Last known IP of the desk lamp</label>
+      <default>$TARGET_IP</default>
+    </entry>
+    <entry name="mac" type="String">
+      <label>MAC address of the desk lamp</label>
+      <default>$TARGET_MAC</default>
+    </entry>
+  </group>
+</kcfg>
+EOF
+
+echo "==> 8. Writing contents/ui/main.qml (host $TARGET_IP)..."
 cat << EOF > "$UI_DIR/main.qml"
 import QtQuick
 import QtQuick.Controls
@@ -121,12 +154,18 @@ PlasmoidItem {
     id: root
 
     property string helper: "$HELPER"
-    property string targetIp: "$TARGET_IP"
-    property string targetMac: "$TARGET_MAC"
+    property string fallbackIp: "$TARGET_IP"
+    property string fallbackMac: "$TARGET_MAC"
     property string deviceName: "$DEVICE_NAME"
+    // Session copy so the popup updates immediately. Config keeps it across restarts.
+    property string discoveredIp: ""
+    property string discoveredMac: ""
+    readonly property string targetIp: root.discoveredIp !== "" ? root.discoveredIp : (Plasmoid.configuration.host || root.fallbackIp)
+    readonly property string targetMac: root.discoveredMac !== "" ? root.discoveredMac : (Plasmoid.configuration.mac || root.fallbackMac)
 
     property bool isConnected: false
     property bool isScanning: false
+    property bool isSearching: false
     property bool busy: false
     property bool dragging: false
 
@@ -166,14 +205,39 @@ PlasmoidItem {
             if (!root.dragging)
                 root.currentTemp = payload.color_temp;
         }
-        if (payload.mac)
-            root.targetMac = payload.mac;
+        root.rememberEndpoint(payload.host, payload.mac);
+    }
+
+    function rememberEndpoint(host, mac) {
+        if (host) {
+            root.discoveredIp = String(host);
+            if (String(Plasmoid.configuration.host || "") !== root.discoveredIp)
+                Plasmoid.configuration.host = root.discoveredIp;
+        }
+        if (mac) {
+            root.discoveredMac = String(mac);
+            if (String(Plasmoid.configuration.mac || "") !== root.discoveredMac)
+                Plasmoid.configuration.mac = root.discoveredMac;
+        }
+    }
+
+    // Plasma's executable engine runs the source through a shell.
+    function shQuote(value) {
+        return "'" + String(value).split("'").join("'\"'\"'") + "'";
     }
 
     function enqueue(action, value) {
-        var cmd = root.helper + " --host " + root.targetIp + " " + action;
-        if (action === "brightness" || action === "temperature")
-            cmd += " " + value;
+        var cmd;
+        if (action === "find") {
+            cmd = root.shQuote(root.helper) + " --name " + root.shQuote(root.deviceName);
+            if (root.targetMac !== "")
+                cmd += " --mac " + root.shQuote(root.targetMac);
+            cmd += " find";
+        } else {
+            cmd = root.shQuote(root.helper) + " --host " + root.shQuote(root.targetIp) + " " + action;
+            if (action === "brightness" || action === "temperature")
+                cmd += " " + value;
+        }
 
         var next = [];
         for (var i = 0; i < root.cmdQueue.length; i++) {
@@ -184,6 +248,8 @@ PlasmoidItem {
             if (action === "temperature" && existing.indexOf(" temperature ") !== -1)
                 drop = true;
             if (action === "get" && existing.indexOf(" get") !== -1)
+                drop = true;
+            if (action === "find" && existing.indexOf(" find") !== -1)
                 drop = true;
             if (!drop)
                 next.push(existing);
@@ -221,8 +287,24 @@ PlasmoidItem {
     }
 
     function checkConnection() {
+        root.isSearching = false;
         root.isScanning = true;
         enqueue("get");
+    }
+
+    function rediscover() {
+        root.isSearching = true;
+        root.isScanning = true;
+        root.lastError = "";
+        var kept = [];
+        for (var i = 0; i < root.cmdQueue.length; i++) {
+            var existing = root.cmdQueue[i];
+            if (existing.indexOf(" get") !== -1 || existing.indexOf(" find") !== -1)
+                continue;
+            kept.push(existing);
+        }
+        root.cmdQueue = kept;
+        enqueue("find");
     }
 
     Timer {
@@ -245,6 +327,7 @@ PlasmoidItem {
             // Do not disconnectSource here: that SIGTERMs kasa mid-TCP and
             // knocks the LB120 off Wi-Fi. Let the process finish on its own.
             root.isScanning = false;
+            root.isSearching = false;
             root.lastError = "Timed out waiting for the lamp";
         }
     }
@@ -275,6 +358,7 @@ PlasmoidItem {
             }
             root.applyPayload(payload);
             root.isScanning = false;
+            root.isSearching = false;
             disconnectSource(sourceName);
             root.busy = false;
             pump();
@@ -328,6 +412,18 @@ PlasmoidItem {
                         text: parent.text
                     }
                 }
+
+                PlasmaComponents.ToolButton {
+                    icon.name: "edit-find"
+                    text: "Find lamp"
+                    display: AbstractButton.IconOnly
+                    enabled: !root.busy
+                    onClicked: root.rediscover()
+
+                    PlasmaComponents.ToolTip {
+                        text: "Search the network for the lamp (use this if its IP changed)"
+                    }
+                }
             }
         }
 
@@ -363,7 +459,7 @@ PlasmoidItem {
 
                     PlasmaComponents.Label {
                         Layout.fillWidth: true
-                        text: root.isScanning ? "Checking…" : (root.isConnected ? "Connected" : "Disconnected")
+                        text: root.isSearching ? "Searching…" : (root.isScanning ? "Checking…" : (root.isConnected ? "Connected" : "Disconnected"))
                         color: root.isConnected ? Kirigami.Theme.positiveTextColor : Kirigami.Theme.negativeTextColor
                     }
                 }
@@ -493,12 +589,12 @@ PlasmoidItem {
 }
 EOF
 
-echo "==> 8. Rebuilding system service cache..."
+echo "==> 9. Rebuilding system service cache..."
 if command -v kbuildsycoca6 &> /dev/null; then
     kbuildsycoca6 --noincremental
 fi
 
-echo "==> 9. Restarting Plasma shell so the widget reloads..."
+echo "==> 10. Restarting Plasma shell so the widget reloads..."
 if command -v kquitapp6 &> /dev/null; then
     kquitapp6 plasmashell || true
     sleep 1
@@ -511,5 +607,6 @@ else
 fi
 
 echo "Done. Widget talks to $TARGET_IP via $HELPER (kasa --type bulb for get/toggle; one-shot XOR for sliders)."
+echo "The Find button next to Refresh rediscovers the lamp with a UDP broadcast if its IP changes."
 echo "Test helper: $HELPER --host $TARGET_IP get"
 echo "Preview: plasmoidviewer -a $PLASMOID_DIR"
