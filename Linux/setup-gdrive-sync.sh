@@ -165,14 +165,15 @@ Type=oneshot
 ExecStart=%h/.local/bin/gdrive-sync.sh --once
 EOF
 
-# 3. Polling Timer (runs every 1 minute)
+# 3. Polling Timer. OnUnitActiveSec is measured from the start of a check.
+# A check takes about a minute, so 2min leaves about a minute of idle time.
 cat << EOF > "$SYSTEMD_USER_DIR/gdrive-poll.timer"
 [Unit]
-Description=Check Google Drive for remote updates every 1 minute
+Description=Check Google Drive for remote updates every 2 minutes
 
 [Timer]
 OnBootSec=1min
-OnUnitActiveSec=1min
+OnUnitActiveSec=2min
 Persistent=true
 
 [Install]
@@ -194,7 +195,7 @@ echo "  * Dual Log Streams:         Full audit log -> ${AUDIT_LOG}"
 echo "                              Filtered changes -> ${CHANGES_LOG}"
 echo "  * Mixed Workload Tuning:    --transfers 8, --checkers 32, --drive-chunk-size 128M, --buffer-size 64M"
 echo "  * Directory Listing:        --drive-list-chunk 1000 & --fast-list enabled"
-echo "  * Timer Frequency:          1-minute polling interval"
+echo "  * Timer Frequency:          2-minute polling interval"
 echo "  * Blocking Lock Queue:      Queues overlapping sync operations cleanly using flock"
 echo ""
 echo "Useful commands:"
