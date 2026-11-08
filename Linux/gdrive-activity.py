@@ -182,6 +182,30 @@ def is_fatal(level: str | None, msg: str) -> bool:
     return False
 
 
+def format_size(num: int) -> str:
+    size = float(num)
+    for unit in ("B", "KB", "MB", "GB", "TB"):
+        if size < 1024 or unit == "TB":
+            if unit == "B":
+                return f"{num} B"
+            if size >= 10:
+                return f"{round(size)} {unit}"
+            return f"{size:.1f} {unit}"
+        size /= 1024
+    return f"{num} B"
+
+
+def current_size(path: str, check: bool) -> str:
+    if not check:
+        return ""
+    try:
+        if os.path.isfile(path):
+            return format_size(os.path.getsize(path))
+    except OSError:
+        return ""
+    return ""
+
+
 def action_for(direction: str, kind: str, in_progress: bool) -> tuple[str, str, str]:
     """Return action id, label, and icon name."""
     if in_progress and kind == "deleted" and direction == "push":
@@ -244,6 +268,7 @@ def make_event(
         "label": label,
         "icon": icon,
         "subtitle": " · ".join(parts),
+        "size": current_size(full, check_exists),
         "in_progress": in_progress,
         "local_path": full,
         "open_path": open_path,
@@ -472,6 +497,14 @@ def expect(condition: bool, message: str) -> None:
         raise AssertionError(message)
 
 
+def test_format_size() -> None:
+    expect(format_size(0) == "0 B", format_size(0))
+    expect(format_size(512) == "512 B", format_size(512))
+    expect(format_size(1536) == "1.5 KB", format_size(1536))
+    expect(format_size(12 * 1024) == "12 KB", format_size(12 * 1024))
+    expect(format_size(1536 * 1024) == "1.5 MB", format_size(1536 * 1024))
+
+
 def test_format_ago() -> None:
     now = datetime(2026, 11, 7, 12, 0, 0)
     expect(format_ago(now - timedelta(seconds=10), now) == "Just now", "just now")
@@ -627,6 +660,7 @@ def test_sample() -> None:
 
 
 def selftest() -> None:
+    test_format_size()
     test_format_ago()
     test_tail_drops_partial_line()
     test_sample()

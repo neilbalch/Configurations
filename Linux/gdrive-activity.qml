@@ -362,12 +362,18 @@ PlasmoidItem {
                     spacing: Kirigami.Units.smallSpacing
 
                     ScrollBar.vertical: ScrollBar {
+                        id: activityScroll
                         policy: ScrollBar.AsNeeded
                     }
 
                     delegate: PlasmaComponents.ItemDelegate {
+                        id: fileRow
                         width: activityList.width
+                        implicitWidth: activityList.width
                         hoverEnabled: true
+                        clip: true
+                        // The bar is drawn over the row. Keep the size label to its left.
+                        rightPadding: (background && background.margins ? background.margins.right : Kirigami.Units.smallSpacing) + (activityScroll.visible ? activityScroll.width + Kirigami.Units.smallSpacing : 0)
                         onClicked: root.openLocal(modelData.open_path)
 
                         HoverHandler {
@@ -379,36 +385,49 @@ PlasmoidItem {
                         ToolTip.text: modelData.path || modelData.name
 
                         contentItem: RowLayout {
+                            id: row
+                            width: fileRow.availableWidth
                             spacing: Kirigami.Units.smallSpacing
 
                             Kirigami.Icon {
                                 source: modelData.icon || "cloudstatus"
                                 Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
                                 Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
-                                Layout.alignment: Qt.AlignVCenter
+                                Layout.alignment: Qt.AlignTop
                             }
 
                             ColumnLayout {
                                 Layout.fillWidth: true
+                                Layout.minimumWidth: 0
                                 spacing: 0
 
                                 PlasmaComponents.Label {
                                     Layout.fillWidth: true
+                                    Layout.preferredWidth: 1
                                     textFormat: Text.PlainText
-                                    elide: Text.ElideMiddle
-                                    maximumLineCount: 1
-                                    text: modelData.name
+                                    wrapMode: Text.Wrap
+                                    text: modelData.path || modelData.name
                                 }
 
                                 PlasmaComponents.Label {
                                     Layout.fillWidth: true
+                                    Layout.preferredWidth: 1
                                     textFormat: Text.PlainText
-                                    elide: Text.ElideRight
-                                    maximumLineCount: 1
+                                    wrapMode: Text.Wrap
                                     opacity: 0.65
                                     font: Kirigami.Theme.smallFont
                                     text: modelData.subtitle
                                 }
+                            }
+
+                            PlasmaComponents.Label {
+                                visible: (modelData.size || "") !== ""
+                                text: modelData.size || ""
+                                textFormat: Text.PlainText
+                                font: Kirigami.Theme.smallFont
+                                opacity: 0.8
+                                horizontalAlignment: Text.AlignRight
+                                Layout.alignment: Qt.AlignTop
                             }
                         }
                     }
