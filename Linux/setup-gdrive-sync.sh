@@ -78,6 +78,62 @@ CHANGES_LOG="$LOG_DIR/changes.log"
 
 mkdir -p "$LOG_DIR"
 
+# A shutdown renames the last good .lst baselines to .lst-err, and the next
+# run refuses to start. Putting those baselines back lets a normal bisync
+# finish the interrupted pass. rclone 1.60 --resync is only the fallback:
+# where both copies differ, the Drive copy overwrites the local file.
+log_notice() {
+    printf '%s NOTICE: %s\n' "$(date '+%Y/%m/%d %H:%M:%S')" "$1" >> "$AUDIT_LOG"
+}
+
+run_bisync() {
+    local offset pid status
+    offset=$(stat -c %s "$AUDIT_LOG" 2>/dev/null || echo 0)
+    rclone bisync "$REMOTE" "$LOCAL_DIR" \
+        --drive-skip-gdocs \
+        --drive-skip-shortcuts \
+        --fast-list \
+        --checkers 32 \
+        --transfers 8 \
+        --drive-list-chunk 1000 \
+        --drive-chunk-size 128M \
+        --buffer-size 64M \
+        --log-level INFO \
+        --log-file="$AUDIT_LOG" \
+        --stats 0 \
+        "$@" &
+    pid=$!
+    # Stream file deltas from the official audit log into changes.log in real-time
+    tail -n 0 -f "$AUDIT_LOG" --pid="$pid" | grep -E --line-buffered "(Copied|Deleted|Queue copy|Queue delete|Failed|ERROR)" >> "$CHANGES_LOG" &
+    wait "$pid"
+    status=$?
+    LAST_LOG_SLICE=$(tail -c +$((offset + 1)) "$AUDIT_LOG" 2>/dev/null || true)
+    return "$status"
+}
+
+listing_recovery_needed() {
+    grep -q -E "Must run --resync to recover|cannot find prior Path1 or Path2 listings|Bisync interrupted" <<<"$LAST_LOG_SLICE"
+}
+
+restore_interrupted_listings() {
+    local workdir="$HOME/.cache/rclone/bisync"
+    local restored=0 err1 base err2 lst1 lst2
+    shopt -s nullglob
+    for err1 in "$workdir"/*.path1.lst-err; do
+        base="${err1%.path1.lst-err}"
+        err2="${base}.path2.lst-err"
+        lst1="${base}.path1.lst"
+        lst2="${base}.path2.lst"
+        if [[ -s "$err1" && -s "$err2" && ! -e "$lst1" && ! -e "$lst2" ]]; then
+            cp -a -- "$err1" "$lst1"
+            cp -a -- "$err2" "$lst2"
+            restored=1
+        fi
+    done
+    shopt -u nullglob
+    [[ "$restored" -eq 1 ]]
+}
+
 do_sync() {
     # Blocking kernel-level lock using flock (queues execution until active pass completes)
     (
@@ -88,22 +144,28 @@ do_sync() {
             rm -f "$HOME/.cache/rclone/bisync/"*.lck 2>/dev/null
         fi
 
-        # Use native rclone --log-file to guarantee standard YYYY/MM/DD HH:MM:SS timestamps
-        rclone bisync "$REMOTE" "$LOCAL_DIR"             --drive-skip-gdocs             --drive-skip-shortcuts             --fast-list             --checkers 32             --transfers 8             --drive-list-chunk 1000             --drive-chunk-size 128M             --buffer-size 64M             --log-level INFO             --log-file="$AUDIT_LOG"             --stats 0 &
-        
-        RCLONE_PID=$!
-
-        # Stream file deltas from the official audit log into changes.log in real-time
-        tail -n 0 -f "$AUDIT_LOG" --pid="$RCLONE_PID" | grep -E --line-buffered "(Copied|Deleted|Queue copy|Queue delete|Failed|ERROR)" >> "$CHANGES_LOG" &
-
-        wait $RCLONE_PID
+        run_bisync
+        status=$?
+        if listing_recovery_needed; then
+            if restore_interrupted_listings; then
+                log_notice "Prior bisync was interrupted. Restored the last file listings and retrying."
+                run_bisync
+                status=$?
+            fi
+            if listing_recovery_needed; then
+                log_notice "File listings are missing. Running --resync so sync can continue."
+                run_bisync --resync
+                status=$?
+            fi
+        fi
+        exit "$status"
     ) 200>"$LOCK_FILE"
 }
 
 # Single execution mode (used by gdrive-poll systemd service)
 if [ "${1:-}" = "--once" ]; then
     do_sync
-    exit 0
+    exit $?
 fi
 
 # Initial baseline sync on service start
@@ -197,6 +259,7 @@ echo "  * Mixed Workload Tuning:    --transfers 8, --checkers 32, --drive-chunk-
 echo "  * Directory Listing:        --drive-list-chunk 1000 & --fast-list enabled"
 echo "  * Timer Frequency:          2-minute polling interval"
 echo "  * Blocking Lock Queue:      Queues overlapping sync operations cleanly using flock"
+echo "  * Interrupted run recovery: Restores the last listings after a shutdown, then retries"
 echo ""
 echo "Useful commands:"
 echo "  * Tail changes log:          tail -f ~/.local/share/rclone/logs/changes.log"
