@@ -13,6 +13,7 @@ install_fpga=false          # FPGA programming tools
 install_rpi=false           # Raspberry Pi config tools
 install_install_deps=true   # Install dependencies for other packages
 install_bento4=false        # Install bento4's MP4 and DASH/HLS/CMAF tools
+install_superposition=false # Install the Unigine Superposition GPU benchmark
 
 # Thread count for Make builds
 # Consider only using 1/2 threads on Raspberry Pi to prevent >1G RAM usage from
@@ -50,6 +51,12 @@ apt_fpga="cmake libboost-dev libboost-filesystem-dev libboost-thread-dev \
           libboost-program-options-dev libboost-iostreams-dev libboost-dev \
           libeigen3-dev python3-apycula"
 apt_rpi="proot qemu-user qemu-utils"
+# https://benchmark.unigine.com/superposition
+# The Linux build bundles Qt 5.9 and still needs the host X11/GL libraries.
+apt_superposition="wget libdbus-1-3 libfontconfig1 libfreetype6 libgl1 libegl1 \
+                   libglib2.0-0 libice6 libpng16-16 libsm6 libx11-6 libxcb1 \
+                   libxext6 libxi6 libxinerama1 libxkbcommon0 libxrandr2 \
+                   libxrender1 zlib1g"
 # Required by:    Bazel,  Global Python Packages,
 apt_install_deps="golang pipx python3 python3-pip"
 
@@ -271,6 +278,7 @@ apt_and_flatpak() {
   [ $install_fpga = true ] && apt_packages="${apt_packages} ${apt_fpga}"
   [ $install_rpi = true ] && apt_packages="${apt_packages} ${apt_rpi}"
   [ $install_install_deps = true ] && apt_packages="${apt_packages} ${apt_install_deps}"
+  [ $install_superposition = true ] && [ "$(uname -m)" = "x86_64" ] && apt_packages="${apt_packages} ${apt_superposition}"
   # https://linuxsimply.com/bash-scripting-tutorial/array/array-operations/array-append
   [ $install_fpga = true ] && pip_packages=(${pip_packages[@]} ${pip_fpga[@]})
 
@@ -562,6 +570,78 @@ configurations() {
   fi
 }
 
+# https://benchmark.unigine.com/superposition
+# Basic edition, personal use. Linux build is x86_64 only.
+superposition() {
+  if [ "$install_superposition" != true ]; then
+    return 0
+  fi
+
+  if [ "$(uname -m)" != "x86_64" ]; then
+    echo "Skipping Unigine Superposition: the Linux build is x86_64 only."
+    return 0
+  fi
+
+  local install_dir="/opt/unigine-superposition"
+  if [ -x "$install_dir/bin/launcher" ]; then
+    echo "Unigine Superposition is already installed."
+    return 0
+  fi
+
+  # /var/tmp stays on disk. /tmp is often a tmpfs too small for this 1.5 GB installer.
+  local tmp installer
+  tmp=$(mktemp -d /var/tmp/unigine-superposition.XXXXXX)
+  installer="$tmp/Unigine_Superposition-1.1.run"
+
+  echo "Downloading Unigine Superposition 1.1"
+  if ! wget -q --show-progress "https://assets.unigine.com/d/Unigine_Superposition-1.1.run" -O "$installer"; then
+    echo "Failed to download Unigine Superposition." >&2
+    rm -rf "$tmp"
+    return 1
+  fi
+  chmod +x "$installer"
+
+  echo "Extracting Unigine Superposition to $install_dir"
+  # --noexec skips postinstall.sh, which only writes a desktop file into $HOME
+  # and then deletes the bundled icons. Makeself also extracts with umask 077.
+  if ! sudo "$installer" --nox11 --noexec --target "$install_dir"; then
+    echo "Failed to extract Unigine Superposition." >&2
+    rm -rf "$tmp"
+    return 1
+  fi
+  rm -rf "$tmp"
+
+  sudo chmod -R a+rX "$install_dir"
+  sudo find "$install_dir" -type f \( \
+    -name launcher -o -name superposition -o -name superposition_cli -o -name Superposition \
+  \) -exec chmod a+x {} +
+
+  # Vendor launcher expects to be started from its bin directory.
+  sudo tee /usr/local/bin/unigine-superposition > /dev/null << 'EOF'
+#!/bin/sh
+cd /opt/unigine-superposition/bin || exit 1
+exec ./launcher "$@"
+EOF
+  sudo chmod a+x /usr/local/bin/unigine-superposition
+
+  sudo tee /usr/share/applications/unigine-superposition.desktop > /dev/null << 'EOF'
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=Superposition Benchmark
+GenericName=A GPU Stress test tool from the UNIGINE
+Comment=Extreme performance and stability test for PC hardware
+Exec=/opt/unigine-superposition/bin/launcher
+Path=/opt/unigine-superposition/bin
+Icon=/opt/unigine-superposition/icons/superposition_icon_256.png
+Terminal=false
+Categories=Launcher;Benchmark;
+StartupNotify=false
+EOF
+
+  echo "Unigine Superposition installed. Launch it with unigine-superposition."
+}
+
 bento4() {
   if [ $install_bento4 ] && ! which mp4info > /dev/null; then
     # TODO: Find a way to make this URL pull the latest version, and be
@@ -583,7 +663,7 @@ bento4() {
 # Parse CLI args
 # ------------------------------------------------------------------------------
 # https://linuxconfig.org/bash-script-flags-usage-with-arguments-examples
-while getopts 'Cn:dupfrDb' OPTION; do
+while getopts 'Cn:dupfrDbs' OPTION; do
   case "$OPTION" in
     C) clone_repo=false;;
     n) build_threads=$OPTARG;;
@@ -594,8 +674,9 @@ while getopts 'Cn:dupfrDb' OPTION; do
     r) install_rpi=true;;
     D) install_install_deps=false;;
     b) install_bento4=true;;
+    s) install_superposition=true;;
     ?)
-      echo -e "$(basename $0) [-C] [-n] [-d] [-u] [-p] [-f] [-r] [-D] [b]" >&2
+      echo -e "$(basename $0) [-C] [-n] [-d] [-u] [-p] [-f] [-r] [-D] [b] [-s]" >&2
       echo -e "-C\tDON'T clone the @neilbalch/Configurations repository to $HOME" >&2
       echo -e "-n\tSet number of make build threads (defaults to $(nproc))" >&2
       echo -e "-d\tInstall packages for Desktop Linux" >&2
@@ -605,6 +686,7 @@ while getopts 'Cn:dupfrDb' OPTION; do
       echo -e "-r\tInstall Raspberry Pi config tools" >&2
       echo -e "-D\tDON'T install dependencies for other packages (why?)" >&2
       echo -e "-b\tInstall Bento4's MP4 and DASH/HLS/CMAF tools" >&2
+      echo -e "-s\tInstall the Unigine Superposition GPU benchmark" >&2
       exit 1
       ;;
   esac
@@ -622,6 +704,7 @@ platform
 tools
 configurations
 bento4
+superposition
 
 # Just for fun :)
 screenfetch
